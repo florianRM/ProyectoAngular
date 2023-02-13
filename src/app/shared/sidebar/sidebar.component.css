@@ -1,0 +1,39 @@
+.container {
+    background-color: #4473ff;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.profile {
+    margin: 15px 0 10px;
+    width: 70px;
+    height: 70px;
+    background-color: red;
+}
+
+.followed {
+    margin-bottom: 0;
+}
+
+hr {
+    color: rgb(255, 255, 255);
+}
+
+ul {
+    list-style: none;
+    margin-left: 15%;
+}
+
+li {
+    padding-top: 15px;
+}
+
+li > a {
+    color: white;
+    text-decoration: none;
+}
+
+a > i {
+    padding-right: 10px;
+}

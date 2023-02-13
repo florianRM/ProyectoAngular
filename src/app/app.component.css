@@ -1,0 +1,15 @@
+.sidebarcontainer {
+    position: relative;
+}
+
+.sidebar {
+    position: fixed;
+}
+
+.mycontainer {
+    display: flex;
+}
+
+.routes {
+    margin-left: 212.27px;
+}

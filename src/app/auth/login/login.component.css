@@ -1,0 +1,65 @@
+.mycontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.logincontainer {
+    border: 1px solid gray;
+    box-shadow: 3px 3px 3px 2px rgba(124, 124, 124, 0.5);
+    padding: 10px 60px 20px 60px;
+    height: auto;
+}
+
+.title {
+    color: rgb(68, 115, 255);
+    text-align: center;
+}
+
+.loginForm > form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+}
+
+.form-field > input {
+    border-radius: 3px;
+    border: 1px solid;
+}
+
+.form-field > input:focus {
+    outline: none;
+    border: 1px solid rgba(68, 115, 255, 0.8);
+    box-shadow: 0 0 5px 2px rgba(68, 115, 255, 0.8);
+}
+
+.texthelper {
+    margin: 5px 0 5px;
+}
+
+.buttonSubmit {
+    margin-top: 15px;
+}
+
+.button {
+    padding: 3px;
+    width: 50%;
+    border-radius: 5px;
+    border: none;
+    background-color: #4473ff;
+    color: white;
+}
+
+.footer {
+    position: relative;
+    bottom: 0;
+}

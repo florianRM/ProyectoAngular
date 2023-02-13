@@ -1,0 +1,25 @@
+<div class="mycontainer">
+    <div class="logincontainer">
+        <div class="title">
+            <h1>Socializate</h1>
+        </div>
+        <div class="loginForm">
+            <form (ngSubmit)="login()" method="post" #myForm="ngForm">
+                <div class="form-field">
+                    <label for="username">Username</label>
+                    <input type="text" class="username" name="username">
+                </div>
+                <div class="form-field">
+                    <label for="password">Password</label>
+                    <input type="password" class="password" name="password">
+                </div>
+                <button class="button buttonSubmit">Log In</button>
+                <p class="texthelper">OR</p>
+                <button class="button buttonRegister">Register</button>
+            </form>
+        </div>
+    </div>
+    <div class="footer">
+        <app-footer></app-footer>
+    </div>
+</div>
