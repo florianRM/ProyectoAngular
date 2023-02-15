@@ -1,10 +1,29 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 import { HomeComponent } from './home/home/home.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full'},
-  { path: 'posts', loadChildren: () => import('./posts/posts.module').then(m => m.PostsModule) }
+  { 
+    path: '', 
+    component: HomeComponent, 
+    canActivate: [AuthGuard],
+    pathMatch: 'full'
+  },
+  { 
+    path: 'posts', 
+    loadChildren: () => import('./posts/posts.module').then(m => m.PostsModule) 
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
+  }
 ];
 
 @NgModule({

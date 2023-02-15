@@ -7,12 +7,19 @@
     height: 100vh;
 }
 
-.logincontainer {
+.subcontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.registercontainer {
     border: 1px solid gray;
     border-radius: 4px;
     box-shadow: 3px 3px 3px 2px rgba(124, 124, 124, 0.5);
     padding: 10px 60px 20px 60px;
-    height: auto;
 }
 
 .title {
@@ -49,6 +56,18 @@
     box-shadow: 0 0 5px 2px rgba(68, 115, 255, 0.8);
 }
 
+.firstCol {
+    display: flex;
+    flex-direction: column;
+}
+
+.repPass {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 1;
+}
+
 .texthelper {
     margin: 5px 0 5px;
 }
@@ -67,7 +86,18 @@
 }
 
 .footer {
-    position: absolute;
-    bottom: 0;
+    border: solid;
     width: 100%;
+}
+
+.required {
+    color: red;
+}
+
+.acceptConditions {
+    width: 65%;
+}
+
+.acceptConditions > span {
+    font-weight: bolder;
 }

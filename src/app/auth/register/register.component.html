@@ -1,0 +1,55 @@
+<div class="mycontainer">
+    <div class="subcontainer">
+        <div class="registercontainer">
+            <div class="title">
+                <h1>Socializate</h1>
+            </div>
+            <div class="registerForm">
+                <form method="post" #myForm="ngForm">
+                    <div class="row">
+                        <div class="col-6 firstCol">
+                            <div class="form-field">
+                                <label for="username">Username<span class="required">*</span></label>
+                                <input type="text" class="username" name="username" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="password">Password<span class="required">*</span></label>
+                                <input type="password" class="password" name="password" required>
+                            </div>
+                            <div class="form-field repPass">
+                                <label for="repeatpassword">Repeat Password<span class="required">*</span></label>
+                                <input type="password" class="repeatpassword" name="repeatpassword" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-field">
+                                <label for="name">Name<span class="required">*</span></label>
+                                <input type="text" class="name" name="name">
+                            </div>
+                            <div class="form-field">
+                                <label for="username">Surname</label>
+                                <input type="text" class="username" name="username">
+                                <label for="withoutsurname">
+                                    <input type="checkbox" class="withoutsurname" name="withoutsurname">
+                                    Without surname
+                                </label>
+                            </div>
+                            <div class="form-field">
+                                <label for="username">Lastname</label>
+                                <input type="text" class="lastname" name="lastname">
+                            </div>
+                        </div>
+                    </div> 
+                    <input type="checkbox" name="conditions" class="conditions">
+                    <span> I have read and accepted the Conditions</span>
+                    <button class="button buttonSubmit">Log In</button>
+                    <p class="texthelper">OR</p>
+                </form>
+                <button class="button buttonRegister" [routerLink]="['/register']" >Register</button>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <app-footer></app-footer>
+    </div>
+</div>
