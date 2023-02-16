@@ -4,15 +4,16 @@
             <h1>Socializate</h1>
         </div>
         <div class="loginForm">
-            <form (ngSubmit)="login()" method="post" #myForm="ngForm">
+            <form (ngSubmit)="login()" #myForm="ngForm">
                 <div class="form-field">
                     <label for="username">Username</label>
-                    <input type="text" class="username" name="username">
+                    <input type="text" class="username" name="username" [ngModel]="loginCredential.username" ngModel>
                 </div>
                 <div class="form-field">
                     <label for="password">Password</label>
-                    <input type="password" class="password" name="password">
+                    <input type="password" class="password" name="password" [ngModel]="loginCredential.password" ngModel>
                 </div>
+                <small *ngIf="incorrectLogin" class="errorHelper">Username or password is incorrect.</small>
                 <button class="button buttonSubmit">Log In</button>
                 <p class="texthelper">OR</p>
             </form>

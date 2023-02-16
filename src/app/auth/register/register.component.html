@@ -42,10 +42,12 @@
                     </div> 
                     <input type="checkbox" name="conditions" class="conditions">
                     <span> I have read and accepted the Conditions</span>
-                    <button class="button buttonSubmit">Log In</button>
-                    <p class="texthelper">OR</p>
+                    <div class="formDown">
+                        <button class="button buttonSubmit">Register</button>
+                        <span class="texthelper">OR</span>
+                        <button [routerLink]="['/login']" class="button buttonLogin">Log In</button>
+                    </div>
                 </form>
-                <button class="button buttonRegister" [routerLink]="['/register']" >Register</button>
             </div>
         </div>
     </div>

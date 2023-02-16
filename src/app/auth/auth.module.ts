@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { RegisterComponent } from './register/register.component';
 import { RouterLink } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { RouterLink } from '@angular/router';
     CommonModule,
     FormsModule,
     SharedModule,
-    RouterLink
+    RouterLink,
+    HttpClientModule
   ],
   exports: [
     LoginComponent

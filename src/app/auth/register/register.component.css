@@ -22,6 +22,16 @@
     padding: 10px 60px 20px 60px;
 }
 
+.formDown {
+    display: flex;
+    align-items: flex-end;
+}
+
+.formDown > span {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .title {
     color: rgb(68, 115, 255);
     text-align: center;
@@ -86,7 +96,6 @@
 }
 
 .footer {
-    border: solid;
     width: 100%;
 }
 

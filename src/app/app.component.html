@@ -1,13 +1,11 @@
-<div class="container-flex">
-    <div *ngIf="true">
-      <router-outlet></router-outlet>
-    </div>
-    <div *ngIf="false" class="contentlogued">
-      <div class="sidebarcontainer">
-        <app-sidebar class="sidebar"></app-sidebar>
-      </div>
-      <div class="routes">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
+<div class="mycontainer">
+  <!-- <div *ngIf="false">
+    <router-outlet></router-outlet>
+  </div> -->
+  <div *ngIf="isLogued" class="sidebarcontainer">
+    <app-sidebar class="sidebar"></app-sidebar>
+  </div>
+  <div class="routes">
+    <router-outlet></router-outlet>
+  </div>
 </div>

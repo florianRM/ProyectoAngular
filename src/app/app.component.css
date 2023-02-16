@@ -1,15 +1,15 @@
-.sidebarcontainer {
-    position: relative;
-}
-
-.sidebar {
-    position: fixed;
-}
-
 .mycontainer {
     display: flex;
 }
 
+.sidebarcontainer {
+    width: 15%;
+    position: sticky;
+    left: 0;
+    top: 0;
+    height: 100vh;
+}
+
 .routes {
-    margin-left: 212.27px;
+    width: 100%;
 }
