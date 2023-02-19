@@ -24,14 +24,14 @@ export class AuthInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`
         }
       })
+      console.log(token);
     }
 
-    return next.handle(request)
+    return next.handle(req)
     .pipe( catchError((err: HttpErrorResponse) => {
       if(err.status === 401) {
         console.log(err)
       }
-      localStorage.removeItem('logued');
       return throwError(() => err);
     }));
   }

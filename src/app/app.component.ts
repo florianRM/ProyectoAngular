@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.isLogued = localStorage.getItem('token') != null;
     // this.authService.isAuthenticated()
     // .subscribe({
     //   next: res => {

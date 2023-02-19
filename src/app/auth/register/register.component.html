@@ -5,47 +5,40 @@
                 <h1>Socializate</h1>
             </div>
             <div class="registerForm">
-                <form method="post" #myForm="ngForm">
-                    <div class="row">
-                        <div class="col-6 firstCol">
-                            <div class="form-field">
-                                <label for="username">Username<span class="required">*</span></label>
-                                <input type="text" class="username" name="username" required>
-                            </div>
-                            <div class="form-field">
-                                <label for="password">Password<span class="required">*</span></label>
-                                <input type="password" class="password" name="password" required>
-                            </div>
-                            <div class="form-field repPass">
-                                <label for="repeatpassword">Repeat Password<span class="required">*</span></label>
-                                <input type="password" class="repeatpassword" name="repeatpassword" required>
-                            </div>
+                <form (ngSubmit)="save()" [formGroup]="myForm">
+                    <div class="firstCol">
+                        <div class="form-field">
+                            <label for="username">Username<span class="required">*</span></label>
+                            <input type="text" class="username" name="username" formControlName="username" required>
+                            <small class="errorHelper" *ngIf="isValid('username')">Username is required</small>
                         </div>
-                        <div class="col-6">
-                            <div class="form-field">
-                                <label for="name">Name<span class="required">*</span></label>
-                                <input type="text" class="name" name="name">
-                            </div>
-                            <div class="form-field">
-                                <label for="username">Surname</label>
-                                <input type="text" class="username" name="username">
-                                <label for="withoutsurname">
-                                    <input type="checkbox" class="withoutsurname" name="withoutsurname">
-                                    Without surname
-                                </label>
-                            </div>
-                            <div class="form-field">
-                                <label for="username">Lastname</label>
-                                <input type="text" class="lastname" name="lastname">
-                            </div>
+                        <div class="form-field">
+                            <label for="password">Password<span class="required">*</span></label>
+                            <input type="password" class="password" name="password" formControlName="password" required>
+                            <small class="errorHelper" *ngIf="isValid('password')">Password is short</small>
                         </div>
-                    </div> 
-                    <input type="checkbox" name="conditions" class="conditions">
+                        <div class="form-field">
+                            <label for="repeatpassword">Repeat Password<span class="required">*</span></label>
+                            <input type="password" class="repeatpassword" name="repeatpassword" formControlName="repeatPass" required>
+                            <small class="errorHelper" *ngIf="isSamePassword()">Password isn't same</small>
+                        </div>
+                        <div class="form-field">
+                            <label for="name">Email<span class="required">*</span></label>
+                            <input type="email" class="email" name="email" formControlName="email">
+                            <small class="errorHelper" *ngIf="isValid('email')">Email isn't valid</small>
+                        </div>
+                        <div class="form-field">
+                            <label for="name">Name<span class="required">*</span></label>
+                            <input type="text" class="name" name="name" formControlName="name">
+                            <small class="errorHelper" *ngIf="isValid('name')">Name is required</small>
+                        </div>
+                    </div>
+                    <input type="checkbox" name="conditions" class="conditions" formControlName="conditions">
                     <span> I have read and accepted the Conditions</span>
                     <div class="formDown">
-                        <button class="button buttonSubmit">Register</button>
+                        <button type="submit" class="button buttonSubmit" [disabled]="myForm.invalid">Register</button>
                         <span class="texthelper">OR</span>
-                        <button [routerLink]="['/login']" class="button buttonLogin">Log In</button>
+                        <span class="alreadyAccount">Have you already account? <a [routerLink]="['/login']">Log In</a></span>
                     </div>
                 </form>
             </div>

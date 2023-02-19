@@ -8,7 +8,9 @@ import { SharedModule } from './shared/shared.module';
 import { PostsModule } from './posts/posts.module';
 import { RouterLink } from '@angular/router';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './auth/auth.interceptor';
+import { HomeModule } from './home/home.module';
+import { HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     AuthModule,
     SharedModule,
     PostsModule,
-    RouterLink
+    HomeModule,
+    RouterLink,
+    HttpClientModule
   ],
   providers: [
     {

@@ -24,12 +24,17 @@
 
 .formDown {
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: center;
 }
 
-.formDown > span {
+.formDown > .texthelper {
     padding-left: 10px;
     padding-right: 10px;
+}
+
+.formDown > .button {
+    width: 50%;
 }
 
 .title {
@@ -58,6 +63,7 @@
 .form-field > input {
     border-radius: 3px;
     border: 1px solid;
+    padding: 4px;
 }
 
 .form-field > input:focus {
@@ -69,13 +75,6 @@
 .firstCol {
     display: flex;
     flex-direction: column;
-}
-
-.repPass {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    flex: 1;
 }
 
 .texthelper {
@@ -107,6 +106,14 @@
     width: 65%;
 }
 
-.acceptConditions > span {
-    font-weight: bolder;
+.errorHelper {
+    color: red;
+}
+
+.button:disabled {
+    background-color: rgba(102, 102, 102, 0.8);
+}
+
+.alreadyAccount {
+    font-weight: bold;
 }
