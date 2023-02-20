@@ -15,13 +15,18 @@ export class VerifyComponent implements OnInit {
   ngOnInit(): void {
     this.authService.verify()
     .subscribe({
-      next: (res: Observable<any>) => {
-        res.subscribe({
-          next: res => console.log(res)
-        })
+      next: (res) => {
         Swal.fire({
           icon: 'success',
-          title: 'Account was verified',
+          title: res.msg,
+          showConfirmButton: false,
+          allowOutsideClick: false
+        })
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: err.error.message ? err.error.message : 'Unexpected error',
           showConfirmButton: false,
           allowOutsideClick: false
         })

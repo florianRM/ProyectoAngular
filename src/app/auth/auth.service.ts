@@ -40,7 +40,7 @@ export class AuthService {
   verify(): Observable<any> {
     return this.route.queryParams
     .pipe( switchMap((res) => {
-      return of(this.http.get(`${this.url}/verify?user=${res['user']}&code=${res['code']}`));
+      return this.http.get(`${this.url}/verify?user=${res['user']}&code=${res['code']}`);
     }))
   }
 }

@@ -50,6 +50,14 @@ export class RegisterComponent implements OnInit {
             this.router.navigate(['/login']);
           }
         })
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: err.error.message ? err.error.message : 'Unexpected error',
+          showConfirmButton: true,
+          allowOutsideClick: false
+        })
       }
     });
   }

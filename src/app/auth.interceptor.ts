@@ -7,11 +7,12 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -24,13 +25,12 @@ export class AuthInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`
         }
       })
-      console.log(token);
     }
 
     return next.handle(req)
     .pipe( catchError((err: HttpErrorResponse) => {
       if(err.status === 401) {
-        console.log(err)
+        this.router.navigateByUrl('/');
       }
       return throwError(() => err);
     }));
