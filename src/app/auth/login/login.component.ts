@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   }
   incorrectLogin: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -26,16 +26,8 @@ export class LoginComponent implements OnInit {
   login():void {
     this.authService.login(this.myForm.value)
     .subscribe({
-      next: res => {
-        localStorage.setItem('token', res.token);
-      },
-      error: err => {
-        if(err.status === 401) {
-          this.loginCredential = {username: '', password: ''};
-          this.incorrectLogin = true;
-        }
-      }
-    });
+      next: res => this.incorrectLogin = res
+    })
   }
 
 }

@@ -37,3 +37,11 @@ li > a {
 a > i {
     padding-right: 10px;
 }
+
+.button {
+    border: none;
+    width: 80%;
+    border-radius: 4px;
+    background-color: white;
+    color: #4473ff;
+}

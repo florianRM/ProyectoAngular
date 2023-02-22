@@ -1,10 +1,10 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Token } from './interface/token';
-import { Observable, of, switchMap, catchError } from 'rxjs';
+import { Observable, of, switchMap, catchError, BehaviorSubject } from 'rxjs';
 import { LoginModel } from './interface/loginModel';
 import { User } from './interface/user';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,19 @@ export class AuthService {
       'Content-Type': 'application/json'
     })
   }
+  private loggedIn = new BehaviorSubject<boolean> (false);
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router:Router) { 
+    this.http.get(`http://localhost:8080/isAuthenticated`)
+    .subscribe({
+      next: () => this.loggedIn.next(true),
+      error: () => this.loggedIn.next(false)
+    })
+  }
+
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
+  }
 
   isAuthenticated(): Observable<any> {
     return this.http.get(`http://localhost:8080/isAuthenticated`)
@@ -29,8 +40,24 @@ export class AuthService {
     }))
   }
 
-  login(user: LoginModel): Observable<Token> {
-    return this.http.post<Token>(`${this.url}/signin`, user, this.httpOptions);
+  login(user: LoginModel): Observable<any> {
+    return this.http.post<Token>(`${this.url}/signin`, user, this.httpOptions)
+    .pipe( switchMap((res: Token) => {
+      localStorage.setItem('token', res.token);
+      this.loggedIn.next(true);
+      this.router.navigate(['/']);
+      return of(false);
+    }),
+    catchError((err) => {
+      console.log(err);
+      return of(true);
+    }))
+  };
+
+  logout(): void {
+    localStorage.removeItem('token');
+    this.loggedIn.next(false);
+    this.router.navigate(['/login']);
   }
 
   register(user: User): Observable<User> {

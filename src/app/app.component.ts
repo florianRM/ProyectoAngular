@@ -8,17 +8,17 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent implements OnInit {
 
-  isLogued: boolean = false;
+  isLogued!: boolean;
 
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    // this.authService.isAuthenticated()
-    // .subscribe({
-    //   next: res => {
-    //     this.isLogued = res
-    //   }
-    // })
+    this.authService.isLoggedIn
+    .subscribe({
+      next: res => {
+        this.isLogued = res
+      }
+    })
   }
 
   title = 'ProyectoAngular';

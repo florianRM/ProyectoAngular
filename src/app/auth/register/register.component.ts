@@ -40,10 +40,10 @@ export class RegisterComponent implements OnInit {
   save(): void {
     this.authService.register(this.myForm.value)
     .subscribe({
-      next: ({name}) => {
+      next: (res) => {
         Swal.fire({
           icon: 'info',
-          title: `One more step ${name}`,
+          title: `One more step ${res}`,
           text: 'Please check your email to confirm the account!',
         }).then(result => {
           if(result.isConfirmed) {

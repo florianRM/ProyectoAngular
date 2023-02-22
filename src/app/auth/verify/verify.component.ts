@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import Swal from 'sweetalert2';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-verify',
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class VerifyComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.authService.verify()
@@ -19,8 +19,9 @@ export class VerifyComponent implements OnInit {
         Swal.fire({
           icon: 'success',
           title: res.msg,
+          text: 'Can close this window.',
           showConfirmButton: false,
-          allowOutsideClick: false
+          allowOutsideClick: false,
         })
       },
       error: (err) => {
