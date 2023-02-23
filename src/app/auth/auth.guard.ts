@@ -13,16 +13,11 @@ export class AuthGuard implements CanActivate {
   canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const token = localStorage.getItem('token');
     
-    return this.authService.isAuthenticated()
-    .pipe( switchMap((res) => {
-      if(res) {
-        this.router.navigate(['/']);
-        return of(true);
-      } else {
-        this.router.navigate(['/login'])
-        return of(false)
-      }
-    }))
+    if(token) {
+      return this.authService.isAuthenticated();
+    }
+    this.router.navigate(['/login']);
+    return false;
   }
   
 }

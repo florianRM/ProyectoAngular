@@ -3,7 +3,14 @@
         <h3>Home</h3>
     </div>
     <main>
-        
+        <div class="post" *ngFor="let post of posts">
+            <p>{{post.user}}</p>
+            <div class="containerImg">
+                <div class="img">
+                    <img [src]="post.img">
+                </div>
+            </div>
+        </div>
     </main>  
     <div class="d-flex justify-content-center">
         <app-footer class="w-75 p-3"></app-footer>
