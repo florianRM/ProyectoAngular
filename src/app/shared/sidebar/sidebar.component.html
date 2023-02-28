@@ -1,9 +1,15 @@
-<div class="container">
+<div *ngIf="user" class="container">
     <div class="row d-flex justify-content-center">
-        <div class="rounded-circle me-2 profile"></div>
+        <img *ngIf="user.img;else noPhoto" class="profile" [src]="user.img" />
+        <ng-template #noPhoto>
+            <img class="profile" src="../../../assets/no-photo.webp" />
+        </ng-template>
+        <div class="welcome">
+            <p>Welcome, <span>{{user.username}}</span></p>
+        </div>
         <div class="d-flex flex-column align-items-center">
-            <p class="followers dates">1000 Followers</p>
-            <p class="followed dates">1000 Followed</p>
+            <p class="followers dates">{{user.followed.length}} Followers</p>
+            <p class="followed dates">{{user.user.length}} Followed</p>
         </div>
     </div>
     <hr/>
@@ -16,7 +22,7 @@
                 <a id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile" [routerLink]="['/posts']"><i class="bi bi-search "></i>Posts</a>
             </li>
             <li>
-                <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages"><i class="bi bi-image"></i>My Photos</a>
+                <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/myposts"><i class="bi bi-image"></i>My Photos</a>
             </li>
             <li>
                 <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages"><i class="bi bi-gear"></i>Settings</a>

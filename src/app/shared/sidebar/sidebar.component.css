@@ -5,11 +5,20 @@
     overflow: hidden;
 }
 
+.welcome {
+    text-align: center;
+}
+
+.welcome > p > span {
+    font-weight: bolder;
+}
+
 .profile {
     margin: 15px 0 10px;
-    width: 70px;
-    height: 70px;
-    background-color: red;
+    width: 120px;
+    height: 90px;
+    border-radius: 100%;
+    object-fit: fill;
 }
 
 .followed {
@@ -44,4 +53,20 @@ a > i {
     border-radius: 4px;
     background-color: white;
     color: #4473ff;
+}
+
+@media only screen and (max-width: 560px) {
+    .container {
+        position: relative;
+    }
+
+    .container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -20px;
+        background-color: black;
+        width: 30px;
+        height: 30px;
+    }
 }

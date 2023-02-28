@@ -1,13 +1,48 @@
+.mycontainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.postcontainer {
+    flex: 1;
+}
+
 .post {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: left;
-    margin: 10px 0 15px;
+    margin: 10px 0 30px;
 }
 
-p {
+.username {
+    width: 58%;
+    text-align: left;
+}
+
+.username > p {
     margin: 0;
+    font-weight: bolder;
+    font-size: 16px;
+}
+
+.post_icons {
+    margin-top: 10px;
+    width: 58%;
+}
+
+.post_icons > ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.post_icons > ul i {
+    cursor: pointer;
+    font-size: 22px;
+    margin-right: 20px;
 }
 
 .containerImg {
@@ -24,4 +59,13 @@ img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+
+.container_footer {
+    display: flex;
+    justify-content: center;
+}
+
+.footer {
+    width: 70%;
 }

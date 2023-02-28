@@ -19,7 +19,8 @@ export class HomeComponent implements OnInit {
   followedPosts(): void {
     this.followedPost.followedPosts()
     .subscribe({
-      next: res => this.posts = res
+      next: res => this.posts = res,
+      error: err => console.log(err)
     })
   }
 

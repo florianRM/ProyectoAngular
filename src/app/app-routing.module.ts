@@ -5,6 +5,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { AuthGuard } from './auth/auth.guard';
 import { VerifyComponent } from './auth/verify/verify.component';
+import { LoginGuard } from './auth/login.guard';
 
 const routes: Routes = [
   { 
@@ -19,6 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
+    canActivate: [LoginGuard],
     component: LoginComponent
   },
   {
@@ -28,7 +30,8 @@ const routes: Routes = [
   {
     path: 'verify',
     component: VerifyComponent
-  }
+  },
+  { path: 'myposts', loadChildren: () => import('./myposts/myposts.module').then(m => m.MypostsModule) }
 ];
 
 @NgModule({

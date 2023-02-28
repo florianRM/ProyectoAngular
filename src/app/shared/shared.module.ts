@@ -4,24 +4,30 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { RouterModule, RouterLink } from '@angular/router';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { FooterComponent } from './footer/footer.component';
-
+import { PostGalleryComponent } from './components/post-gallery/post-gallery.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { PopUpPostComponent } from './components/pop-up-post/pop-up-post.component'
 
 
 @NgModule({
   declarations: [
     SidebarComponent,
     SearchBarComponent,
-    FooterComponent
+    FooterComponent,
+    PostGalleryComponent,
+    PopUpPostComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    RouterLink
+    RouterLink,
+    MatDialogModule
   ],
   exports: [
     SidebarComponent,
     SearchBarComponent,
-    FooterComponent
+    FooterComponent,
+    PostGalleryComponent
   ]
 })
 export class SharedModule { }

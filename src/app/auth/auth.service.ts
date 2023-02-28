@@ -5,6 +5,7 @@ import { Observable, of, switchMap, catchError, BehaviorSubject } from 'rxjs';
 import { LoginModel } from './interface/loginModel';
 import { User } from './interface/user';
 import { ActivatedRoute, Router } from '@angular/router';
+import jwt_decode, { JwtPayload } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,13 @@ export class AuthService {
       'Content-Type': 'application/json'
     })
   }
+  private tokenSaved: string = localStorage.getItem('token') || '';
   private loggedIn = new BehaviorSubject<boolean> (false);
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router:Router) { 
-    this.http.get(`http://localhost:8080/isAuthenticated`)
+    this.http.get<any>(`http://localhost:8080/isAuthenticated`)
     .subscribe({
-      next: () => this.loggedIn.next(true),
+      next: (res) => this.loggedIn.next(res.authenticated),
       error: () => this.loggedIn.next(false)
     })
   }
@@ -31,12 +33,24 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
-  isAuthenticated(): Observable<any> {
-    return this.http.get(`http://localhost:8080/isAuthenticated`)
-    .pipe( switchMap(() => of(true)),
-    catchError((err) => {
-      console.log(err);
-      return of(false);
+  decodeToken(): JwtPayload {
+    let tokenPayload!: JwtPayload;
+    try {
+      tokenPayload = jwt_decode(this.tokenSaved);
+    } catch (error) {
+      console.log(error);
+    }
+    return tokenPayload;
+  }
+
+  isAuthenticated(): Observable<boolean> {
+    return this.http.get<any>(`http://localhost:8080/isAuthenticated`)
+    .pipe( switchMap((res) => {
+      if(res.authenticated) {
+        return of(true)
+      } else {
+        return of(false);
+      }
     }))
   }
 

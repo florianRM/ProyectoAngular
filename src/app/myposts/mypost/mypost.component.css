@@ -1,0 +1,24 @@
+.mycontainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 30px;
+}
+
+.postcontainer {
+    flex: 1;
+}
+
+.container_footer {
+    display: flex;
+    justify-content: center;
+}
+
+.footer {
+    width: 70%;
+}
