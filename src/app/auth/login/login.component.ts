@@ -26,7 +26,8 @@ export class LoginComponent implements OnInit {
   login():void {
     this.authService.login(this.myForm.value)
     .subscribe({
-      next: res => this.incorrectLogin = res
+      next: res => this.incorrectLogin = res,
+      error: err => console.log(err)
     })
   }
 

@@ -5,6 +5,16 @@
     overflow: hidden;
 }
 
+.followinfo {
+    display: flex;
+    justify-content: center;
+}
+
+.container_routes {
+    display: flex;
+    justify-content: center;
+}
+
 .welcome {
     text-align: center;
 }
@@ -30,12 +40,13 @@ hr {
 }
 
 ul {
+    margin: 0;
+    padding: 0;
     list-style: none;
-    margin-left: 15%;
 }
 
 li {
-    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 li > a {
@@ -53,6 +64,7 @@ a > i {
     border-radius: 4px;
     background-color: white;
     color: #4473ff;
+    padding: 4px;
 }
 
 @media only screen and (max-width: 560px) {

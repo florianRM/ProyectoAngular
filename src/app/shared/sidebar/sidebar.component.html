@@ -7,27 +7,31 @@
         <div class="welcome">
             <p>Welcome, <span>{{user.username}}</span></p>
         </div>
-        <div class="d-flex flex-column align-items-center">
-            <p class="followers dates">{{user.followed.length}} Followers</p>
-            <p class="followed dates">{{user.user.length}} Followed</p>
+        <div class="followinfo">
+            <div class="dates">
+                <p class="followers">{{user.followed.length}} Followers</p>
+                <p class="followed">{{user.user.length}} Followed</p>
+            </div>
         </div>
     </div>
     <hr/>
-    <div class="row d-flex justify-content-center">
-        <ul>
-            <li>
-                <a id="list-home-list" data-toggle="list" role="tab" aria-controls="home" routerLink="/"><i class="bi bi-house"></i>Home</a>
-            </li>
-            <li>
-                <a id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile" [routerLink]="['/posts']"><i class="bi bi-search "></i>Posts</a>
-            </li>
-            <li>
-                <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/myposts"><i class="bi bi-image"></i>My Photos</a>
-            </li>
-            <li>
-                <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages"><i class="bi bi-gear"></i>Settings</a>
-            </li>
-        </ul>
-        <button (click)="logout()" class="button">Log Out</button>
+    <div class="container_routes">
+        <div class="routes">
+            <ul>
+                <li *ngIf="user.user.length">
+                    <a id="list-home-list" data-toggle="list" role="tab" aria-controls="home" routerLink="/"><i class="bi bi-house"></i>Home</a>
+                </li>
+                <li>
+                    <a id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile" [routerLink]="['/posts']"><i class="bi bi-search "></i>Posts</a>
+                </li>
+                <li>
+                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/myposts"><i class="bi bi-image"></i>My Posts</a>
+                </li>
+                <li>
+                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages"><i class="bi bi-gear"></i>Settings</a>
+                </li>
+            </ul>
+            <button (click)="logout()" class="button">Log Out</button>
+        </div>
     </div>
 </div>

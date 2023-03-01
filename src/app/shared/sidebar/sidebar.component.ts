@@ -22,8 +22,7 @@ export class SidebarComponent implements OnInit {
     this.sharedService.getUser()
     .subscribe({
       next: res => {
-        this.user = res
-        console.log(res)
+        this.user = res;
       },
       error: err => console.log(err)
     })

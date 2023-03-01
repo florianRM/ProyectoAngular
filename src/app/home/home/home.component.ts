@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FollowedPostService } from '../followed-post.service';
+import {  } from "ngx-infinite-scroll"
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +12,7 @@ export class HomeComponent implements OnInit {
 
   posts: any[] = [];
 
-  constructor(private followedPost: FollowedPostService) { }
+  constructor(private followedPost: FollowedPostService, private router: Router) { }
 
   ngOnInit(): void {
     this.followedPosts();
@@ -19,7 +21,12 @@ export class HomeComponent implements OnInit {
   followedPosts(): void {
     this.followedPost.followedPosts()
     .subscribe({
-      next: res => this.posts = res,
+      next: res => {
+        this.posts = res.content;
+        if(!res.content.length) {
+          this.router .navigate(['/posts'])
+        }
+      },
       error: err => console.log(err)
     })
   }
