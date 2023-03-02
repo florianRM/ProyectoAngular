@@ -1,0 +1,36 @@
+<div class="mycontainer">
+    <div class="header">
+        <div class="title">
+            <h1>Upload Post</h1>
+        </div>
+    </div>
+    <div class="containerImg">
+        <form (ngSubmit)="uploadPost()" [formGroup]="myForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="titlePost" class="titlePost" formControlName="title">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea name="description" class="description" cols="30" rows="5" formControlName="description"></textarea>
+            </div>
+            <div class="dropzone">
+                <input type="file" id="fileDropRef" formControlName="img" (change)="onFileChange($event)" />
+                <h3>Drag and drop file here</h3>
+                <h3>or</h3>
+                <label for="fileDropRef">Browse for file</label>
+            </div>
+            <div class="file">
+                <div class="info">
+                    <h4 class="name">
+                        <i class="bi bi-check-lg" *ngIf="uploaded"></i>{{ file?.name }}
+                    </h4>
+                </div>
+            </div>
+            <div class="formButtons">
+                <button type="submit" class="submitButton">Upload</button>
+                <button class="cancelButton" (click)="closeModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,11 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Post } from '../../../../interfaces/post';
 import { MatDialogRef } from '@angular/material/dialog';
-import { SharedService } from '../../shared.service';
-import { AuthService } from '../../../auth/auth.service';
-import { JwtPayload } from 'jwt-decode';
-import { Follow } from '../../../auth/interface/follow';
-import { User } from '../../../auth/interface/user';
+import { SharedService } from 'src/app/shared/shared.service';
+import { Post } from 'src/interfaces/post';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-pop-up-post',

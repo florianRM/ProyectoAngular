@@ -2,6 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Post } from 'src/interfaces/post';
+import { UploadPostComponent } from '../upload-post/upload-post.component';
 import { PopUpPostComponent } from '../pop-up-post/pop-up-post.component';
 
 @Component({
@@ -32,6 +33,13 @@ export class PostGalleryComponent implements OnInit {
     for(let i=0; i < this.postsLength; i++) {
       this.state.push('close');
     }
+    console.log(this.state);
+  }
+
+  openDialogUpload(): void {
+    this.dialog.open(UploadPostComponent, {
+      disableClose: true
+    });
   }
 
   openDialog(post: Post): void {

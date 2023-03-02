@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
       next: res => {
         this.posts = res.content;
         if(!res.content.length) {
-          this.router .navigate(['/posts'])
+          this.router.navigate(['/posts'])
         }
       },
       error: err => console.log(err)

@@ -20,7 +20,8 @@ export class MypostComponent implements OnInit {
   getMyPosts(): void {
     this.myPostService.getMyposts()
     .subscribe({
-      next: res => this.myPosts = res
+      next: res => this.myPosts = res,
+      error: err => console.log(err)
     })
   }
 
