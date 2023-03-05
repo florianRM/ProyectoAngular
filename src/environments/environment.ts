@@ -4,9 +4,7 @@
 
 export const environment = {
   production: false,
-  postsUrl: 'http://localhost:8080/posts',
-  usersUrl: 'http://localhost:8080/users',
-  followsUrl: 'http://localhost:8080/follows'
+  url: 'http://localhost:8080/posts'
 };
 
 /*

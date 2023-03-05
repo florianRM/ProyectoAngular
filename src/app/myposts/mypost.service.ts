@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Post } from 'src/interfaces/post';
-import { environment } from '../../environments/environment';
-import { UploadPost } from '../../interfaces/uploadPost';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MypostService {
 
-  private url: string = environment.postsUrl;
+  private url: string = environment.url;
 
   constructor(private http: HttpClient) { }
 

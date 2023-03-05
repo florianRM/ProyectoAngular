@@ -6,13 +6,14 @@ import { LoginModel } from './interface/loginModel';
 import { User } from './interface/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private url:string = 'http://localhost:8080';
+  private url:string = environment.url;
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -22,7 +23,7 @@ export class AuthService {
   private loggedIn = new BehaviorSubject<boolean> (false);
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router:Router) { 
-    this.http.get<any>(`http://localhost:8080/isAuthenticated`)
+    this.http.get<any>(`${this.url}/isAuthenticated`)
     .subscribe({
       next: (res) => this.loggedIn.next(res.authenticated),
       error: () => this.loggedIn.next(false)
@@ -44,7 +45,7 @@ export class AuthService {
   }
 
   isAuthenticated(): Observable<boolean> {
-    return this.http.get<any>(`http://localhost:8080/isAuthenticated`)
+    return this.http.get<any>(`${this.url}/isAuthenticated`)
     .pipe( switchMap((res) => {
       if(res.authenticated) {
         return of(true)
