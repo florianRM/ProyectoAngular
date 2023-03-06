@@ -54,6 +54,11 @@ img {
     object-fit: cover;
 }
 
+.post_icons {
+    position: relative;
+    z-index: -999;
+}
+
 .post_icons > ul {
     display: flex;
     justify-content: center;

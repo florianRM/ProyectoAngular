@@ -2,12 +2,9 @@
     <div class="d-flex justify-content-center">
         <h3>My Posts</h3>
     </div>
-    <span class="loader" *ngIf="!myPosts.length;else posts"></span>
-    <ng-template #posts>
-        <div class="postcontainer">
-            <app-post-gallery [posts]="myPosts" [postsLength]="myPosts.length"></app-post-gallery>
-        </div>
-    </ng-template>
+    <div class="postcontainer" *ngIf="myPosts.length">
+        <app-post-gallery [posts]="myPosts" [postsLength]="myPosts.length"></app-post-gallery>
+    </div>
     <div class="container_footer">
         <app-footer class="footer"></app-footer>
     </div>

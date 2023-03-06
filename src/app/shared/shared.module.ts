@@ -5,24 +5,30 @@ import { RouterModule, RouterLink } from '@angular/router';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { FooterComponent } from './footer/footer.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { LoadingComponent } from './loading/loading.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 
 
 @NgModule({
   declarations: [
     SidebarComponent,
     SearchBarComponent,
-    FooterComponent
+    FooterComponent,
+    LoadingComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     RouterLink,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     SidebarComponent,
     SearchBarComponent,
-    FooterComponent
+    FooterComponent,
+    LoadingComponent
   ]
 })
 export class SharedModule { }

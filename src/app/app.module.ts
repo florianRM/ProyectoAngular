@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
+import { LoadingInterceptor } from './loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,11 @@ import { InfiniteScrollModule } from "ngx-infinite-scroll";
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
       multi: true
     }
   ],

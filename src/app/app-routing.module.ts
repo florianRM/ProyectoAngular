@@ -31,7 +31,8 @@ const routes: Routes = [
     path: 'verify',
     component: VerifyComponent
   },
-  { path: 'myposts', loadChildren: () => import('./myposts/myposts.module').then(m => m.MypostsModule) }
+  { path: 'myposts', loadChildren: () => import('./myposts/myposts.module').then(m => m.MypostsModule) },
+  { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) }
 ];
 
 @NgModule({
