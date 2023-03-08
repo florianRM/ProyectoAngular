@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../auth/interface/user';
 import { UserService } from '../user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -13,7 +14,7 @@ export class UsersComponent implements OnInit {
   cols: any[] = [];
   totalRecords: number = 0;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
     this.userService.getUsers()
@@ -30,6 +31,17 @@ export class UsersComponent implements OnInit {
       {field: 'creationDate', header: 'Creation Date'},
       {field: 'enabled', header: 'Enabled'},
     ]
+  }
+
+  enabledUser(user: User): void {
+    this.userService.enabledUser(user.username, !user.enabled)
+    .subscribe({
+      next: res => {console.log(res),
+        // this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=> this.router.navigate(["/users"]));
+        this.ngOnInit();
+      },
+      error: err => console.log(err)
+    })
   }
 
 }

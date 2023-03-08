@@ -19,7 +19,6 @@ export class AuthService {
       'Content-Type': 'application/json'
     })
   }
-  private tokenSaved: string = localStorage.getItem('token') || '';
   private loggedIn = new BehaviorSubject<boolean> (false);
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router:Router) { 
@@ -35,9 +34,10 @@ export class AuthService {
   }
 
   decodeToken(): JwtPayload {
+    const tokenSaved: string = localStorage.getItem('token') || '';
     let tokenPayload!: JwtPayload;
     try {
-      tokenPayload = jwt_decode(this.tokenSaved);
+      tokenPayload = jwt_decode(tokenSaved);
     } catch (error) {
       console.log(error);
     }

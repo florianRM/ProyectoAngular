@@ -7,11 +7,13 @@
             </th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-user>
         <tr>
-            <td *ngFor="let col of cols">
+            <td *ngFor="let col of cols" enabled="col.enabled" user="col">
                 {{rowData[col.field]}}
             </td>
+            <button *ngIf="user.enabled" type="button" class="btn btn-danger" (click)="enabledUser(user)">Disabled</button>
+            <button *ngIf="!user.enabled" type="button" class="btn btn-success" (click)="enabledUser(user)">Enabled</button>
         </tr>
     </ng-template>
 </p-table>
