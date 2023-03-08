@@ -94,6 +94,9 @@ SOFTWARE.
 ngx-infinite-scroll
 MIT
 
+primeng
+MIT
+
 rxjs
 Apache-2.0
                                Apache License
