@@ -17,7 +17,8 @@ export class AppComponent implements OnInit {
     .subscribe({
       next: res => {
         this.isLogued = res
-      }
+      },
+      error: err => console.log('Hola')
     })
   }
 

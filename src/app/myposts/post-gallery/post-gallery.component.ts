@@ -3,7 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Post } from 'src/interfaces/post';
 import { UploadPostComponent } from '../upload-post/upload-post.component';
-import { PopUpPostComponent } from '../pop-up-post/pop-up-post.component';
+import { MypostService } from '../mypost.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-post-gallery',
@@ -27,13 +28,12 @@ export class PostGalleryComponent implements OnInit {
   @Input() postsLength: number = 0;
   state: string[] = [];
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private myPostService: MypostService) { }
 
   ngOnInit(): void {
     for(let i=0; i < this.postsLength; i++) {
       this.state.push('close');
     }
-    console.log(this.state);
   }
 
   openDialogUpload(): void {
@@ -42,17 +42,34 @@ export class PostGalleryComponent implements OnInit {
     });
   }
 
-  openDialog(post: Post): void {
-    const dialogRef = this.dialog.open(PopUpPostComponent, {
-      maxWidth: '700px',
-      maxHeight: '700px'
-    });
-    const instance = dialogRef.componentInstance;
-    instance.post = post;
-  }
-
   changeState(index: number) {
     this.state[index] = this.state[index]  === 'close' ? 'open' : 'close';
+  }
+
+  deletePost(id: number): void {
+    this.myPostService.deletePost(id)
+    .subscribe({
+      next: () => {
+        Swal.fire({
+          title: 'Delete post',
+          icon: 'warning',
+          text: 'Are you sure to delete this post?',
+          showCloseButton: true,
+          showConfirmButton: true,
+          confirmButtonText: 'Delete',
+          confirmButtonColor: 'red'
+        }).then(resp => {
+          if(resp.isConfirmed) {
+            Swal.fire({
+              title: 'Successfully',
+              text: 'The post has been deleted successfully',
+              showCancelButton: true,
+              showConfirmButton: false
+            })
+          }
+        })
+      } 
+    })
   }
 
 }

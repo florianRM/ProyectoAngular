@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Token } from './interface/token';
 import { Observable, of, switchMap, catchError, BehaviorSubject } from 'rxjs';
@@ -25,23 +25,33 @@ export class AuthService {
     this.http.get<any>(`${this.url}/isAuthenticated`)
     .subscribe({
       next: (res) => this.loggedIn.next(res.authenticated),
-      error: () => this.loggedIn.next(false)
+      error: (err: HttpErrorResponse) => {
+        this.router.navigate(['/badgateway'])
+        this.loggedIn.next(false)
+      }
     })
+  }
+
+  get user() {
+    const user = localStorage.getItem('user');
+    if(user) {
+      return JSON.parse(user);
+    }
+    return null;
   }
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
 
-  decodeToken(): JwtPayload {
-    const tokenSaved: string = localStorage.getItem('token') || '';
-    let tokenPayload!: JwtPayload;
+  decodeToken(): void {
     try {
-      tokenPayload = jwt_decode(tokenSaved);
+      const tokenSaved: string = localStorage.getItem('token') || '';
+      let tokenPayload: JwtPayload = jwt_decode(tokenSaved);
+      localStorage.setItem('user', JSON.stringify(tokenPayload));
     } catch (error) {
       console.log(error);
     }
-    return tokenPayload;
   }
 
   isAuthenticated(): Observable<boolean> {
@@ -59,6 +69,7 @@ export class AuthService {
     return this.http.post<Token>(`${this.url}/signin`, user, this.httpOptions)
     .pipe( switchMap((res: Token) => {
       localStorage.setItem('token', res.token);
+      this.decodeToken();
       this.loggedIn.next(true);
       this.router.navigate(['/']);
       return of(false);

@@ -6,6 +6,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { AuthGuard } from './auth/auth.guard';
 import { VerifyComponent } from './auth/verify/verify.component';
 import { LoginGuard } from './auth/login.guard';
+import { ErrorComponent } from './shared/error/error.component';
 
 const routes: Routes = [
   { 
@@ -32,7 +33,9 @@ const routes: Routes = [
     component: VerifyComponent
   },
   { path: 'myposts', loadChildren: () => import('./myposts/myposts.module').then(m => m.MypostsModule) },
-  { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) }
+  { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
+  { path: 'categories', loadChildren: () => import('./category/category.module').then(m => m.CategoryModule) },
+  { path: '**', component: ErrorComponent }
 ];
 
 @NgModule({

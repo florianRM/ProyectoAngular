@@ -1,0 +1,100 @@
+.contain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.post-header {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.notFoundCategory span {
+    text-align: center;
+    color: red;
+}
+
+.post-header p {
+    margin: 0;
+    margin-right: 10px;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.post-header .followButton {
+    background-color: #4473ff;
+    color: white;
+    border-radius: 4px;
+    border: none;
+}
+
+.container-content {
+    flex: 1;
+}
+
+.row {
+    display: flex;
+    margin: 5px;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex-basis: 33.3%;
+    padding: 5px;
+}
+
+.gallery-container {
+    overflow: hidden;
+    width: 100%;
+}
+
+img {
+    object-fit: cover;
+    max-width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 1;
+    border-radius: 4px;
+}
+
+.post_icons {
+    position: relative;
+    z-index: -999;
+}
+
+.post_icons>ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.post_icons>ul i {
+    cursor: pointer;
+    font-size: 20px;
+    margin-right: 20px;
+}
+
+.footer {
+    width: 70%;
+}
+
+@media only screen and (max-width:480px) {
+    .column {
+        flex-basis: 100%;
+    }
+
+    .add_post {
+        height: 12.4475em;
+    }
+}
+
+@media only screen and (min-width: 481px) and (max-width:801px) {
+    .column {
+        flex-basis: 50%;
+    }
+}

@@ -1,5 +1,4 @@
 export const environment = {
   production: true,
-  // url: 'https://redsocialmarianflorianristea-production.up.railway.app'
-  url: 'http://localhost:8080'
+  url: 'https://redsocialmarianflorianristea-production.up.railway.app'
 };

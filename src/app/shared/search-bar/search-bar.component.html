@@ -1,5 +1,5 @@
 <div class="input-group">
     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-        aria-describedby="search-addon" />
-    <button type="button" class="btn btn-outline-primary">Search</button>
+        aria-describedby="search-addon" #query />
+    <button type="button" class="btn btn-outline-primary" (click)="send(query.value)">Search</button>
 </div>

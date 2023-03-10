@@ -21,6 +21,11 @@ export class MypostService {
     const form: FormData = new FormData();
     form.append('file', file, file.name);
     form.append('post', new Blob([JSON.stringify(postInfo)], {type: 'application/json'}));
-    return this.http.post<File>(`${this.url}/upload`, form);
+    return this.http.post<File>(`${this.url}/posts/upload`, form);
   }
+
+  deletePost(id: number): Observable<any> {
+    return this.http.delete(`${this.url}/post/delete/${id}`)
+  }
+
 }

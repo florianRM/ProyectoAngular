@@ -1,0 +1,59 @@
+.title {
+    text-align: center;
+}
+
+.addCategory {
+    padding: 10px;
+}
+
+.addCategory button {
+    border: none;
+    border-radius: 4px;
+    color: white;
+    background-color: #4473ff;
+    padding: 4px;
+}
+
+i {
+    cursor: pointer;
+    font-size: 20px;
+    margin-right: 20px;
+}
+
+.dialogTitle {
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.formButtons {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin: 0;
+}
+
+.formButtons button {
+    padding: 7px 20px 7px 20px;
+    margin: 0;
+    margin-left: 25px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+.formButtons .submitButton {
+    background-color: green;
+}
+
+.formButtons .cancelButton {
+    background-color: red;
+}
+
+.errorHelper {
+    color: red;
+}

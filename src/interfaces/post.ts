@@ -4,5 +4,6 @@ export interface Post {
     description: string,
     uploadDate: Date,
     img: string,
-    user: User
+    user: string,
+    _id: number
 }

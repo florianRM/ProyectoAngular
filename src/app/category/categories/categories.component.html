@@ -1,0 +1,47 @@
+<div class="title">
+    <h3>Categories</h3>
+</div>
+<div class="addCategory" *ngIf="user && user.role == 'ADMIN'">
+    <button (click)="changeDisplay()">Add Category</button>
+</div>
+<p-table [value]="categories" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 15, 20]"
+    [totalRecords]="totalRecords" [pageLinks]="3">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th *ngIf="user && user.role == 'ADMIN'">Delete</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowgroup="rowgroup" let-category>
+        <tr>
+            <td>
+                {{category.id}}
+            </td>
+            <td>
+                {{category.name}}
+            </td>
+            <td *ngIf="user && user.role == 'ADMIN'">
+                <i class="bi bi-trash3-fill text-danger" (click)="deleteCategory(category.id)"></i>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-dialog [(visible)]="display">
+    <ng-template pTemplate="header">
+        <div class="dialogTitle">
+            <h3>Add Category</h3>
+        </div>
+    </ng-template>
+    <form (ngSubmit)="addCategory()" [formGroup]="myForm">
+        <div class="form-group">
+            <label for="title">Name</label>
+            <input type="text" name="titlePost" class="titlePost" formControlName="name">
+            <small class="errorHelper" *ngIf="isValidName()">Name is required</small>
+        </div>
+        <div class="formButtons">
+            <button type="submit" class="submitButton" >Add</button>
+            <button type="button" class="cancelButton" (click)="changeDisplay()">Cancel</button>
+        </div>
+    </form>
+</p-dialog>

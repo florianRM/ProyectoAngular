@@ -17,7 +17,7 @@ export class SharedService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   getUser(): Observable<User> {
-    const user: JwtPayload = this.authService.decodeToken();
+    const user = this.authService.user;
     return this.http.get<User>(`${this.url}/user/${user.sub}`);
   }
 

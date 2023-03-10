@@ -1,11 +1,34 @@
-<div class="container-flex">
+<div class="contain">
     <div class="d-flex justify-content-center">
         <h3>Posts</h3>
     </div>
     <div class="d-flex justify-content-center">
-        <app-search-bar></app-search-bar>
+        <app-search-bar (keyword)="findByCategory($event)"></app-search-bar>
     </div>
-    <div class="d-flex justify-content-center">
-        <app-footer class="w-75 p-3"></app-footer>
+    <div class="notFoundCategory" *ngIf="posts.length == 0">
+        <span>No category with that name found</span>
     </div>
+    <div class="container-content">
+        <div class="row" *ngIf="posts.length">
+            <div class="column" *ngFor="let post of posts; index as i" (mouseenter)="changeState(i)" (mouseleave)="changeState(i)">
+                <div class="post-header">
+                    <p class="username">{{ post.user }}</p>
+                    <button class="followButton" *ngIf="post.user != userInfo.sub;else unfollowButton" (click)="followUser(post.user)">Follow</button>
+                    <ng-template #unfollowButton>
+                        <button class="followButton" *ngIf="post.user != userInfo.sub;">Unfollow</button>
+                    </ng-template>
+                </div>
+                <div class="gallery-container">
+                    <img [src]="post.img">
+                </div>
+                <div class="post_icons" [@visibleIcons]="state[i]">
+                    <ul>
+                        <li><i class="bi bi-heart"></i></li>
+                        <li><i class="bi bi-chat"></i></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-footer class="footer"></app-footer>
 </div>

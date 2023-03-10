@@ -14,6 +14,17 @@
                 <label for="description">Description</label>
                 <textarea name="description" class="description" cols="30" rows="5" formControlName="description"></textarea>
             </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select class="category" name="category" (change)="addCategory($event)" [formControl]="newCategory">
+                    <option *ngFor="let category of categoriesForm" [value]="category.id">
+                        {{ category.name }}
+                    </option>
+                </select>
+                <div *ngFor="let category of addedCategories;">
+                    <span>{{ category }}</span>
+                </div>
+            </div>
             <div class="dropzone">
                 <input type="file" id="fileDropRef" formControlName="img" (change)="onFileChange($event)" />
                 <h3>Drag and drop file here</h3>
@@ -29,7 +40,7 @@
             </div>
             <div class="formButtons">
                 <button type="submit" class="submitButton">Upload</button>
-                <button class="cancelButton" (click)="closeModal()">Cancel</button>
+                <button type="button" class="cancelButton" (click)="closeModal()">Cancel</button>
             </div>
         </form>
     </div>
