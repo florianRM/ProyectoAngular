@@ -5,5 +5,5 @@ export interface Post {
     uploadDate: Date,
     img: string,
     user: string,
-    _id: number
+    id: number
 }

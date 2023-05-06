@@ -51,6 +51,10 @@ h3 {
     margin-right: 20px;
 }
 
+.bi-heart-fill {
+    color: red;
+}
+
 .containerImg {
     display: flex;
     justify-content: center;
@@ -74,4 +78,42 @@ img {
 
 .footer {
     width: 70%;
+}
+
+.containerComment {
+    border: solid 1px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.comment .username {
+    font-weight: bolder;
+}
+
+.formTextArea {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 5em;
+}
+
+.commentTextArea {
+    width: 100%;
+    height: 100%;
+    margin-right: 2%;
+}
+
+.sendButton {
+    background-color: #4473ff;
+    padding: 5px 15px 5px 15px;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+
+.uploadDateComment {
+    font-size: 0.8em;
 }

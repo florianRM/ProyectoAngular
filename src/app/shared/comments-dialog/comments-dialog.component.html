@@ -1,0 +1,26 @@
+<p-dialog header="Comments" [breakpoints]="{'480px': '100vw'}" [style]="{width:'30vw', heigth:'30vh'}" [modal]="true" [draggable]="false" [resizable]="false">
+    <ng-container *ngIf="comments.length;else noComments">
+        <div *ngFor="let comment of comments;">
+            <div class="containerComment">
+                <div class="comment">
+                    <span class="username">{{ comment.user }}: </span>
+                    <span class="commentContain">{{ comment.commentContain }}</span>
+                </div>
+                <div>
+                    <span class="uploadDateComment">{{ comment.commentDate }}</span>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #noComments>
+        <span>Be the first to comment</span>
+    </ng-template>
+    <p-footer>
+        <form (ngSubmit)="commentPost()" [formGroup]="myForm">
+            <div class="formTextArea">
+                <textarea class="commentTextArea" placeholder="Write a comment" autocomplete="nope" formControlName="comment"></textarea>
+                <button class="sendButton" pTooltip="Send comment">Send</button>
+            </div>
+        </form>
+    </p-footer>
+</p-dialog>

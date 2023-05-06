@@ -14,8 +14,11 @@
             </div>
             <div class="post_icons">
                 <ul>
-                    <li><i class="bi bi-heart"></i></li>
-                    <li><i class="bi bi-chat"></i></li>
+                    <li *ngIf="!isLikedPost(post.id);else liked"><i class="bi bi-heart" (click)="giveLike(post)"></i></li>
+                    <ng-template #liked>
+                        <li><i class="bi bi-heart-fill" (click)="removeLike(post)"></i></li>
+                    </ng-template>
+                    <li><i class="bi bi-chat" (click)="openCommentDialog(post.id); getComments(post.id)"></i></li>
                 </ul>
             </div>
         </div>

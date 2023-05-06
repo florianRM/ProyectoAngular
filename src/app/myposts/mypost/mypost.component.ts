@@ -14,10 +14,6 @@ export class MypostComponent implements OnInit {
   constructor(private myPostService: MypostService) { }
 
   ngOnInit(): void {
-    this.getMyPosts();
-  }
-
-  getMyPosts(): void {
     this.myPostService.getMyposts()
     .subscribe({
       next: res => this.myPosts = res,

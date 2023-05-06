@@ -67,18 +67,10 @@ a > i {
     padding: 4px;
 }
 
-@media only screen and (max-width: 560px) {
-    .container {
-        position: relative;
-    }
+.activeRoute {
+    font-size: 19px;
+}
 
-    .container::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: -20px;
-        background-color: black;
-        width: 30px;
-        height: 30px;
-    }
+.activeRoute > i {
+    font-size: 20px;
 }

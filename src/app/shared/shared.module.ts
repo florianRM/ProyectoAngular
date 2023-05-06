@@ -8,7 +8,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { LoadingComponent } from './loading/loading.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ErrorComponent } from './error/error.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommentsDialogComponent } from './comments-dialog/comments-dialog.component';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DialogModule } from 'primeng/dialog';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 @NgModule({
@@ -17,20 +21,29 @@ import { ErrorComponent } from './error/error.component';
     SearchBarComponent,
     FooterComponent,
     LoadingComponent,
-    ErrorComponent
+    ErrorComponent,
+    CommentsDialogComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     RouterLink,
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    DynamicDialogModule,
+    DialogModule,
+    TooltipModule
   ],
   exports: [
     SidebarComponent,
     SearchBarComponent,
     FooterComponent,
-    LoadingComponent
+    LoadingComponent,
+    CommentsDialogComponent
+  ],
+  providers: [
+    DialogService
   ]
 })
 export class SharedModule { }

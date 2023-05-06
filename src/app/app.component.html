@@ -3,10 +3,13 @@
     <router-outlet></router-outlet>
   </div> -->
   <app-loading></app-loading>
-  <div *ngIf="isLogued" class="sidebarcontainer">
+  <div *ngIf="isLogued" class="sidebarcontainer" [ngClass]="{sidebarcontainerOpen: open}">
     <app-sidebar class="sidebar"></app-sidebar>
+    <div class="arrowcontainer">
+      <span class="arrow" (click)="changeStateSideBar()" [ngClass]="{arrowClose: open}"></span>
+    </div>
   </div>
-  <div class="routes">
+  <div class="routes" [ngClass]="{routesFilter: open}">
     <router-outlet></router-outlet>
   </div>
 </div>

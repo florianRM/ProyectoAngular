@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MypostService } from '../mypost.service';
 import Swal from 'sweetalert2';
 import { CategoryService } from '../../services/category.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload-post',
@@ -29,7 +30,7 @@ export class UploadPostComponent implements OnInit {
     category: []
   }
 
-  constructor(private categoryService: CategoryService, private fb: FormBuilder, private dialog: MatDialogRef<UploadPostComponent>, private myPostService: MypostService) { }
+  constructor(private categoryService: CategoryService, private fb: FormBuilder, private dialog: MatDialogRef<UploadPostComponent>, private myPostService: MypostService, private router: Router) { }
 
   uploaded: boolean = false;
   file!: File | null;
@@ -89,7 +90,7 @@ export class UploadPostComponent implements OnInit {
           if(resp.isConfirmed) {
             this.closeModal();
           }
-        })
+        });
       },
       error: err => console.log(err)
     });

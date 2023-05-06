@@ -7,6 +7,8 @@
 .column{
     flex-basis: 33.3%;
     padding: 5px;
+    margin-bottom: 30px;
+    max-height: 19em;
 }
 
 .add_post {
@@ -15,7 +17,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 88%;
+    height: 100%;
 }
 
 .blur_background {
@@ -35,28 +37,18 @@
     cursor: pointer;
 }
 
-.imgcontainer {
-    position: relative;
-    top: 0;
-    z-index: 1;
+.gallery-container {
+    height: 100%;
 }
 
 .image {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-img {
-    border-radius: 4px;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.post_icons {
     position: relative;
-    z-index: -999;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    object-fit: contain;
+    border-radius: 4px;
+    background-color: white;
 }
 
 .post_icons > ul {
@@ -65,18 +57,61 @@ img {
     list-style: none;
     margin: 0;
     padding: 0;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .post_icons > ul i {
-    cursor: copy;
+    cursor: pointer;
     font-size: 20px;
     margin-right: 20px;
+}
+
+.bi-heart-fill {
+    color: red;
+}
+
+.containerComment {
+    border: solid 1px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.comment .username {
+    font-weight: bolder;
+}
+
+.formTextArea {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 5em;
+}
+
+.commentTextArea {
+    width: 100%;
+    height: 100%;
+    margin-right: 2%;
+}
+
+.sendButton {
+    background-color: #4473ff;
+    padding: 5px 15px 5px 15px;
+    color: white;
+    border: none;
+    border-radius: 3px;
+}
+
+.uploadDateComment {
+    font-size: 0.8em;
 }
 
 @media only screen and (max-width:480px) {
     .column {
         flex-basis: 100%;
+        max-height: 16em;
     }
 
     .add_post {

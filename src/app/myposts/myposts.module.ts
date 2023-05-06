@@ -8,7 +8,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PostGalleryComponent } from './post-gallery/post-gallery.component';
 import { UploadPostComponent } from './upload-post/upload-post.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { DialogModule } from 'primeng/dialog';
+import {DynamicDialogModule} from 'primeng/dynamicdialog';
+import {TooltipModule} from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     MypostsRoutingModule,
     SharedModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DynamicDialogModule,
+    DialogModule,
+    TooltipModule
   ]
 })
 export class MypostsModule { }

@@ -19,22 +19,22 @@
         <div class="routes">
             <ul>
                 <li *ngIf="user.user.length">
-                    <a id="list-home-list" data-toggle="list" role="tab" aria-controls="home" routerLink="/"><i class="bi bi-house"></i>Home</a>
+                    <a id="list-home-list" data-toggle="list" role="tab" aria-controls="home" routerLink="/" routerLinkActive="activeRoute" routerLinkActive="activeRoute" [routerLinkActiveOptions]="{exact: true}"><i class="bi bi-house"></i>Home</a>
                 </li>
                 <li>
-                    <a id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile" [routerLink]="['/posts']"><i class="bi bi-search "></i>Posts</a>
+                    <a id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile" [routerLink]="['/posts']" routerLinkActive="activeRoute"><i class="bi bi-search"></i>Posts</a>
                 </li>
                 <li>
-                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/myposts"><i class="bi bi-image"></i>My Posts</a>
+                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/myposts" routerLinkActive="activeRoute"><i class="bi bi-image"></i>My Posts</a>
                 </li>
                 <li *ngIf="user.role == 'ADMIN'">
-                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/users"><i class="bi bi-people"></i>Users</a>
+                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/users" routerLinkActive="activeRoute"><i class="bi bi-people"></i>Users</a>
                 </li>
                 <li>
-                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/categories"><i class="bi bi-tags"></i>Categories</a>
+                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/categories" routerLinkActive="activeRoute"><i class="bi bi-tags"></i>Categories</a>
                 </li>
                 <li>
-                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages"><i class="bi bi-gear"></i>Settings</a>
+                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLinkActive="activeRoute"><i class="bi bi-gear"></i>Settings</a>
                 </li>
             </ul>
             <button (click)="logout()" class="button">Log Out</button>
