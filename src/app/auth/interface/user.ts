@@ -1,4 +1,4 @@
-import { Follow } from './follow';
+import { Follow } from '../../../interfaces/follow';
 export interface User {
     username: string,
     email: string,

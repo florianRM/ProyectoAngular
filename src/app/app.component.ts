@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
+import { ChatService } from './services/chat.service';
 
 @Component({
   selector: 'app-root',
@@ -9,18 +10,21 @@ import { AuthService } from './auth/auth.service';
 export class AppComponent implements OnInit {
 
   isLogued!: boolean;
-  open: boolean = true;
+  open: boolean = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private chatService: ChatService) { }
 
   ngOnInit(): void {
     this.authService.isLoggedIn
     .subscribe({
       next: res => {
         this.isLogued = res
+        if(res === true) {
+          this.chatService.connect();
+        }
       },
       error: err => console.log('Hola')
-    })
+    });
   }
 
   changeStateSideBar(): void {

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { MypostService } from '../mypost.service';
 import Swal from 'sweetalert2';
 import { CategoryService } from '../../services/category.service';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-upload-post',
@@ -55,10 +56,19 @@ export class UploadPostComponent implements OnInit {
 
   onFileChange(event: any): void {
     this.file = event.target.files[0];
-    this.myForm.patchValue({
-      fileSource: this.file
-    })
-    this.uploaded = true;
+    if(this.file!.size > 1048576) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Wow, an error has occurred',
+        text: 'Images larger than 1 mb are not allowed'
+      })
+      this.file = null;
+    } else {
+      this.myForm.patchValue({
+        fileSource: this.file
+      })
+      this.uploaded = true;
+    }
   }
 
   closeModal(): void {
@@ -81,18 +91,26 @@ export class UploadPostComponent implements OnInit {
     this.myPostService.uploadPost(this.json, file)
     .subscribe({
       next: (res) => {
+        console.log(res)
         Swal.fire({
           icon: 'success',
           title: 'Successful Upload',
-          text: `Image with name ${res.name} has been uploaded`,
+          text: `Image with name ${res.title} has been uploaded`,
           showConfirmButton: true
         }).then(resp => {
           if(resp.isConfirmed) {
             this.closeModal();
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/myposts']);
+            });
           }
         });
       },
-      error: err => console.log(err)
+      error: (err: HttpErrorResponse) => {
+        if(err.status === 500) {
+          
+        }
+      }
     });
   }
 

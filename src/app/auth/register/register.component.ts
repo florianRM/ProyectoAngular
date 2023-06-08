@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { User } from '../interface/user';
 
 @Component({
   selector: 'app-register',
@@ -40,10 +41,10 @@ export class RegisterComponent implements OnInit {
   save(): void {
     this.authService.register(this.myForm.value)
     .subscribe({
-      next: (res) => {
+      next: (res: User) => {
         Swal.fire({
           icon: 'info',
-          title: `One more step ${res}`,
+          title: `One more step ${res.username}`,
           text: 'Please check your email to confirm the account!',
         }).then(result => {
           if(result.isConfirmed) {

@@ -5,7 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { User } from '../auth/interface/user';
 import { AuthService } from '../auth/auth.service';
 import { environment } from 'src/environments/environment.prod';
-import { Follow } from '../auth/interface/follow';
+import { Follow } from '../../interfaces/follow';
 
 @Injectable({
   providedIn: 'root'

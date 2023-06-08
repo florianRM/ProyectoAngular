@@ -4,15 +4,18 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { RouterModule, RouterLink } from '@angular/router';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { FooterComponent } from './footer/footer.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { LoadingComponent } from './loading/loading.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 import { ErrorComponent } from './error/error.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommentsDialogComponent } from './comments-dialog/comments-dialog.component';
+import { TooltipModule } from 'primeng/tooltip';
+import { LikesUsersComponent } from './likes-users/likes-users.component';
+import { LikesUsersDialogComponent } from './likes-users-dialog/likes-users-dialog.component';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DialogModule } from 'primeng/dialog';
-import { TooltipModule } from 'primeng/tooltip';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 @NgModule({
@@ -22,7 +25,10 @@ import { TooltipModule } from 'primeng/tooltip';
     FooterComponent,
     LoadingComponent,
     ErrorComponent,
-    CommentsDialogComponent
+    CommentsDialogComponent,
+    LikesUsersComponent,
+    LikesUsersDialogComponent,
+    NotFoundComponent
   ],
   imports: [
     CommonModule,
@@ -31,9 +37,9 @@ import { TooltipModule } from 'primeng/tooltip';
     MatDialogModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
+    TooltipModule,
     DynamicDialogModule,
-    DialogModule,
-    TooltipModule
+    DialogModule
   ],
   exports: [
     SidebarComponent,

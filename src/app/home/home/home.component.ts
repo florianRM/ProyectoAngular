@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FollowedPostService } from '../followed-post.service';
-import {  } from "ngx-infinite-scroll"
 import { Router } from '@angular/router';
 import { LikeService } from 'src/app/services/like.service';
 import { Like } from 'src/interfaces/like';
@@ -8,6 +7,9 @@ import { Post } from 'src/interfaces/post';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/interfaces/comment';
+import { CommentsDialogComponent } from 'src/app/shared/comments-dialog/comments-dialog.component';
+import { DialogService } from 'primeng/dynamicdialog';
+import { FollowService } from 'src/app/services/follow.service';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +27,7 @@ export class HomeComponent implements OnInit {
   })
   postId: number = 0;
 
-  constructor(private commentService: CommentService, private fb: FormBuilder, private followedPost: FollowedPostService, private likeService: LikeService, private router: Router) { }
+  constructor(private dialogService: DialogService, private fb: FormBuilder, private followedPost: FollowedPostService, private likeService: LikeService, private router: Router, private followService: FollowService) { }
 
   ngOnInit(): void {
     this.likeService.getLikes()
@@ -88,39 +90,21 @@ export class HomeComponent implements OnInit {
   }
 
   openCommentDialog(postId: number): void {
-    this.postId = postId;
-    this.visibleComments = !this.visibleComments;
-  }
-
-  getComments(id: number): void {
-    this.commentService.getCommentsByPostId(id)
-    .subscribe({
-      next: res => this.comments = res
+    this.dialogService.open(CommentsDialogComponent, {
+      header: "Comments",
+      width: "30vw",
+      data: {
+        id: postId
+      },
+      baseZIndex: 10000,
+      modal: true
     })
   }
 
-  openCommentsDialog(): void {
-    this.visibleComments = !this.visibleComments;
-  }
-
-  commentPost(): void {
-    if(this.myForm.invalid) {
-      return;
-    }
-
-    const comment = {
-      post: {
-        id: this.postId
-      },
-      commentContain: this.myForm.controls['comment'].value
-    }
-
-    this.commentService.addComment(comment)
+  unfollowUser(followed: string): void {
+    this.followService.unfollowUser(followed)
     .subscribe({
-      next: res => {
-        this.myForm.reset();
-        this.getComments(this.postId)
-      }
+      next: () => location.reload()
     })
   }
 

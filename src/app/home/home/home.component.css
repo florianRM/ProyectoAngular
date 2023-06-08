@@ -22,8 +22,31 @@ h3 {
     margin: 10px 0 30px;
 }
 
+.post-header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.buttonUnfollow {
+    flex: 1;
+}
+
+.post_header_info {
+    display: flex;
+    margin-bottom: 3px;
+    width: 60%;
+}
+
+.post-header .followsButton {
+    background-color: #4473ff;
+    color: white;
+    border-radius: 4px;
+    border: none;
+}
+
 .username {
-    width: 58%;
+    margin-right: 2%;
     text-align: left;
 }
 

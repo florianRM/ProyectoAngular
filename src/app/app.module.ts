@@ -12,8 +12,11 @@ import { HomeModule } from './home/home.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { LoadingInterceptor } from './loading.interceptor';
+import { ChatModule } from './chat/chat.module';
+import { StompRService } from '@stomp/ng2-stompjs';
+import { DialogModule } from 'primeng/dialog';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { LoadingInterceptor } from './loading.interceptor';
     RouterLink,
     HttpClientModule,
     BrowserAnimationsModule,
-    InfiniteScrollModule
+    ChatModule,
+    DialogModule,
+    TooltipModule
   ],
   providers: [
     {
@@ -37,11 +42,12 @@ import { LoadingInterceptor } from './loading.interceptor';
       useClass: AuthInterceptor,
       multi: true
     },
-    {
+    /* {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
       multi: true
-    }
+    }, */
+    StompRService
   ],
   bootstrap: [AppComponent]
 })

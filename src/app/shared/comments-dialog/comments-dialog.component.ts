@@ -16,14 +16,14 @@ export class CommentsDialogComponent implements OnInit {
   })
   postId: number = 0;
 
-  constructor(private fb: FormBuilder, private commentService: CommentService, private ref: DynamicDialogRef, private config: DynamicDialogConfig) { 
-    this.postId = config.data.id
+  constructor(private fb: FormBuilder, private commentService: CommentService, config: DynamicDialogConfig) {
+    this.postId = config.data.id;
   }
-  
   ngOnInit(): void {
+    console.log(this.postId)
     this.commentService.getCommentsByPostId(this.postId)
     .subscribe({
-      next: res => this.comments = res
+      next: res => {this.comments = res; console.log(res)}
     })
   }
 

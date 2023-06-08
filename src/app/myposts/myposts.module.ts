@@ -4,13 +4,13 @@ import { CommonModule } from '@angular/common';
 import { MypostsRoutingModule } from './myposts-routing.module';
 import { MypostComponent } from './mypost/mypost.component';
 import { SharedModule } from '../shared/shared.module';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { PostGalleryComponent } from './post-gallery/post-gallery.component';
 import { UploadPostComponent } from './upload-post/upload-post.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
-import {DynamicDialogModule} from 'primeng/dynamicdialog';
-import {TooltipModule} from 'primeng/tooltip';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -27,6 +27,9 @@ import {TooltipModule} from 'primeng/tooltip';
     DynamicDialogModule,
     DialogModule,
     TooltipModule
+  ],
+  providers: [
+    DialogService
   ]
 })
 export class MypostsModule { }

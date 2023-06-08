@@ -6,25 +6,33 @@
         <app-search-bar (keyword)="findByCategory($event)"></app-search-bar>
     </div>
     <div class="container-content">
-        <div class="notFoundCategory" *ngIf="posts.length == 0">
+        <div class="notFoundCategory" *ngIf="!posts.length">
             <span>No category with that name found</span>
         </div>
         <div class="row" *ngIf="posts.length">
-            <div class="column" *ngFor="let post of posts; index as i" (mouseenter)="changeState(i)" (mouseleave)="changeState(i)">
+            <div class="column" *ngFor="let post of posts; index as i">
                 <div class="post-header">
                     <p class="username">{{ post.user }}</p>
-                    <button class="followButton" *ngIf="post.user != userInfo.sub;else unfollowButton" (click)="followUser(post.user)">Follow</button>
-                    <ng-template #unfollowButton>
-                        <button class="followButton" *ngIf="post.user != userInfo.sub;">Unfollow</button>
-                    </ng-template>
+                    <div *ngIf="post.user != userInfo.sub">
+                        <div *ngIf="!isFollowed(post.user);else unfollowButton">
+                            <button class="followsButton" (click)="followUser(post.user)">Follow</button>
+                        </div>
+                        <ng-template #unfollowButton>
+                            <button class="followsButton" (click)="unfollowUser(post.user)">Unfollow</button>
+                        </ng-template>
+                    </div>
                 </div>
                 <div class="gallery-container">
                     <img [src]="post.img">
                 </div>
-                <div class="post_icons" [@visibleIcons]="state[i]">
+                <div class="post_icons">
                     <ul>
-                        <li><i class="bi bi-heart"></i></li>
-                        <li><i class="bi bi-chat"></i></li>
+                        <li class="likesCount" (click)="openLikesDialog(post)" pTooltip="View likes">{{ post.likes.length }}</li>
+                        <li *ngIf="!isLikedPost(post.id);else liked"><i class="bi bi-heart" (click)="giveLike(post)"></i></li>
+                        <ng-template #liked>
+                            <li><i class="bi bi-heart-fill" (click)="removeLike(post)"></i></li>
+                        </ng-template>
+                        <li><i class="bi bi-chat" (click)="openCommentDialog(post.id)"></i></li>
                     </ul>
                 </div>
             </div>

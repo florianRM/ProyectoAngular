@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { LoadingService } from '../loading.service';
 
@@ -9,11 +9,18 @@ import { LoadingService } from '../loading.service';
 })
 export class LoadingComponent implements OnInit {
 
-  isLoading: Subject<boolean> = this.loadingService.isLoading;
+  isLoading: boolean = false;
 
-  constructor(private loadingService: LoadingService) { }
+  constructor(
+    private loadingService: LoadingService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
+    this.loadingService.isLoading.subscribe(isLoading => {
+      this.isLoading = isLoading;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
 }

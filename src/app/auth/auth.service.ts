@@ -24,7 +24,7 @@ export class AuthService {
   constructor(private http: HttpClient, private route: ActivatedRoute, private router:Router) { 
     this.http.get<any>(`${this.url}/isAuthenticated`)
     .subscribe({
-      next: (res) => this.loggedIn.next(res.authenticated),
+      next: (res) => this.loggedIn.next(res.valid),
       error: (err: HttpErrorResponse) => {
         this.router.navigate(['/badgateway'])
         this.loggedIn.next(false)
@@ -57,7 +57,7 @@ export class AuthService {
   isAuthenticated(): Observable<boolean> {
     return this.http.get<any>(`${this.url}/isAuthenticated`)
     .pipe( switchMap((res) => {
-      if(res.authenticated) {
+      if(res.valid) {
         return of(true)
       } else {
         return of(false);

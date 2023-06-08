@@ -4,8 +4,7 @@
 <div class="addCategory" *ngIf="user && user.role == 'ADMIN'">
     <button (click)="changeDisplay()">Add Category</button>
 </div>
-<p-table [value]="categories" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 15, 20]"
-    [totalRecords]="totalRecords" [pageLinks]="3">
+<p-table [value]="categories" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 15, 20]" [totalRecords]="totalRecords" [pageLinks]="3">
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th>Id</th>

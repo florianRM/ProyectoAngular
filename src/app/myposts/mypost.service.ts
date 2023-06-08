@@ -17,11 +17,11 @@ export class MypostService {
     return this.http.get<Post[]>(`${this.url}/myposts`);
   }
 
-  uploadPost(postInfo: any, file: File): Observable<File> {
+  uploadPost(postInfo: any, file: File): Observable<Post> {
     const form: FormData = new FormData();
     form.append('file', file, file.name);
     form.append('post', new Blob([JSON.stringify(postInfo)], {type: 'application/json'}));
-    return this.http.post<File>(`${this.url}/posts/upload`, form);
+    return this.http.post<Post>(`${this.url}/posts/upload`, form);
   }
 
   deletePost(id: number): Observable<any> {

@@ -1,0 +1,74 @@
+<div class="contain">
+    <div class="chats">
+        <div class="available_chats">
+            <div class="title">
+                <h1>Chat</h1>
+                <hr>
+            </div>
+            <div class="icons">
+                <div class="add_chat">
+                    <span class="material-symbols-outlined" pTooltip="Create chat" (click)="openDialog()">person_add</span>
+                </div>
+                <div class="add_group">
+                    <span class="material-symbols-outlined" pTooltip="Create group" (click)="openGroupDialog()">group_add</span>
+                </div>
+            </div>
+            <div>
+                <ul>
+                    <li class="member_chat" *ngFor="let chat of chats" [routerLink]="['/chat', chat.id]">
+                        <div *ngIf="!chat.group;else groupChat">
+                            <div *ngFor="let member of chat.members">
+                                <div *ngIf="member != username" class="member_info">
+                                    <div class="member_username">
+                                        <span>{{ member }}</span>
+                                    </div>
+                                    <div class="status_user">
+                                        <i [ngClass]="{'offline': isUserOnline(member) == false, 'online': isUserOnline(member) == true}" class="fa-solid fa-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-template #groupChat>
+                            <div class="groupName">
+                                <span>{{ chat.name }}</span>
+                            </div>
+                        </ng-template>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="chat">
+            <div *ngIf="!isRouterOutletActivated" class="messageInfo">
+                <h1>Enter a chat and start talking</h1>
+            </div>
+            <router-outlet (activate)="onRouterOutletActivate()" (deactivate)="onRouterOutletDeactivate()"></router-outlet>
+        </div>
+    </div>
+</div>
+<p-dialog header="Followed" [(visible)]="visible" [style]="{width: '20vw'}">
+    <div *ngIf="chats.length">
+        <ul class="followed_list" *ngIf="_missingFollowers.length;else followUser">
+            <li *ngFor="let follow of _missingFollowers">
+                <div class="follow_user">
+                    <div class="followed_username">
+                        {{ follow }}
+                    </div>
+                    <div class="add_user">
+                        <i class="fa-solid fa-plus" pTooltip="Add this user" (click)="createChat(follow)"></i>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <ng-template #followUser>
+        <div>
+            <span>Follow more users</span>
+        </div>
+    </ng-template>
+</p-dialog>
+<p-dialog header="Create Group" [(visible)]="groupVisible">
+    <div class="groupName">
+        <input type="text" [(ngModel)]="groupName" placeholder="Group name">
+        <button class="createGroupButton" (click)="createGroup()">Create Group</button>
+    </div>
+</p-dialog>

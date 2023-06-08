@@ -19,6 +19,7 @@ export class CategoriesComponent implements OnInit {
     name: ['', [Validators.required, Validators.minLength(3)]]
   })
   user!: User;
+  cols: any[] = [];
 
   constructor(private categoryService: CategoryService, private fb: FormBuilder, private authService: AuthService) { }
 

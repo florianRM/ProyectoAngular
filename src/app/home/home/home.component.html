@@ -4,8 +4,15 @@
     </div>
     <div class="postcontainer">
         <div class="post" *ngFor="let post of posts">
-            <div class="username">
-                <p>{{post.user}}</p>
+            <div class="post-header">
+                <div class="post_header_info">
+                    <div class="username">
+                        <p>{{ post.user }}</p>
+                    </div>
+                    <div class="buttonUnfollow">
+                        <button class="followsButton" (click)="unfollowUser(post.user)">Unfollow</button>
+                    </div>
+                </div>
             </div>
             <div class="containerImg">
                 <div class="img">
@@ -18,7 +25,7 @@
                     <ng-template #liked>
                         <li><i class="bi bi-heart-fill" (click)="removeLike(post)"></i></li>
                     </ng-template>
-                    <li><i class="bi bi-chat" (click)="openCommentDialog(post.id); getComments(post.id)"></i></li>
+                    <li><i class="bi bi-chat" (click)="openCommentDialog(post.id)"></i></li>
                 </ul>
             </div>
         </div>

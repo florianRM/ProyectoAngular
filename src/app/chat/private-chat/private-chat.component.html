@@ -1,0 +1,75 @@
+<div class="contain">
+    <div class="header_chat" *ngIf="chat">
+        <div class="recipientName" *ngIf="!chat.group;else groupName">
+            <span>{{ getRecipientUser() }}</span>
+        </div>
+        <ng-template #groupName>
+            <div class="groupName">
+                <span>{{ chat.name }}</span>
+            </div>
+            <div class="group_options">
+                <button (click)="openDialog()">Add Members</button>
+                
+            </div>
+        </ng-template>
+    </div>
+    <div class="messages_container" #scrollContainer infiniteScroll [infiniteScrollUpDistance]="2" [scrollWindow]="false" (scrolledUp)="onScrolledUp($event)">
+        <div class="myrow" *ngFor="let message of messages">
+            <div [ngClass]="{sender_message: message.sender === userLogued}">
+                <div class="message" *ngIf="message.sender === userLogued;else recipient">
+                    <div class="message_contain">
+                        <div class="sender_username">
+                            <span>You</span>
+                        </div>
+                        <div>
+                            <span>{{ message.message }}</span> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #recipient>
+                <div class="sended_message">
+                    <div class="message">
+                        <div class="message_contain">
+                            <div class="sender_username">
+                                <span>{{ message.sender }}</span>
+                            </div>
+                            <div>
+                                <span>{{ message.message }}</span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <div class="send_message">
+        <input type="text" [(ngModel)]="messageInput" (keyup.enter)="sendMessage()"/>
+        <button class="send_button" (click)="sendMessage()"><i class="fa-solid fa-paper-plane" pTooltip="Send Message"></i></button>
+    </div>
+</div>
+<p-dialog header="Followed" [(visible)]="visible" [style]="{width: '20vw'}">
+    <div *ngIf="chat">
+        <ul class="followed_list" *ngIf="_missingFollowers.length;else followUser">
+            <li *ngFor="let follow of _missingFollowers">
+                <div class="follow_user">
+                    <div class="followed_username">
+                        {{ follow }}
+                    </div>
+                    <div class="add_user">
+                        <i *ngIf="!addedMember(follow);else addedMemberIcon" class="fa-solid fa-plus" pTooltip="Add this user" (click)="addMember(follow)"></i>
+                        <ng-template #addedMemberIcon>
+                            <i class="fa-solid fa-check" (click)="removeMember(follow)"></i>
+                        </ng-template>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <ng-template #followUser>
+        <div>
+            <span>Follow more users</span>
+        </div>
+    </ng-template>
+    <button class="saveButton" (click)="addMembers()" *ngIf="_missingFollowers.length">Save</button>
+</p-dialog>

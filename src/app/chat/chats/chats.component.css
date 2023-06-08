@@ -1,0 +1,111 @@
+.contain {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    border-left: solid 1px white;
+    box-sizing: content-box;
+}
+
+.chats {
+    display: flex;
+    height: 100%;
+}
+
+.title {
+    text-align: center;
+    color: white;
+}
+
+.icons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+
+.icons span {
+    cursor: pointer;
+    font-size: 1.625em;
+    color: white;
+}
+
+.available_chats {
+    background-color: #4473ff;
+    width: 15%;
+    padding: 10px;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chat {
+    flex: 1;
+    height: 100%;
+    max-height: 100%;
+}
+
+
+.member_chat {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: solid 1px;
+    border-bottom: solid 1px;
+    border-color: white;
+    border-radius: 6px;
+    margin: 0 0 10px;
+}
+
+.member_chat .member_info, .groupName {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4em;
+    padding: 0.6em;
+}
+
+.member_username, .groupName > span {
+    color: white;
+    font-size: 1.07em;
+}
+
+.messageInfo {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fa-circle {
+    font-size: 0.8em;
+}
+
+.offline {
+    color: red;
+}
+
+.online {
+    color: #32cd32;
+}
+
+.followed_list .follow_user {
+    display: flex;
+    padding-bottom: 1em;
+    gap: 10px;
+}
+
+.fa-plus {
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.createGroupButton {
+    background-color: rgba(68, 115, 255);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 3px;
+}

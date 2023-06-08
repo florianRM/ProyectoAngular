@@ -7,6 +7,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { VerifyComponent } from './auth/verify/verify.component';
 import { LoginGuard } from './auth/login.guard';
 import { ErrorComponent } from './shared/error/error.component';
+import { ChatGuard } from './chat/chat.guard';
 
 const routes: Routes = [
   { 
@@ -17,7 +18,13 @@ const routes: Routes = [
   },
   { 
     path: 'posts',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./posts/posts.module').then(m => m.PostsModule) 
+  },
+  {
+    path: 'chat',
+    canActivate: [AuthGuard, ChatGuard],
+    loadChildren: () => import('./chat/chat-routing.module').then(m => m.ChatRoutingModule)
   },
   {
     path: 'login',
@@ -32,9 +39,18 @@ const routes: Routes = [
     path: 'verify',
     component: VerifyComponent
   },
-  { path: 'myposts', loadChildren: () => import('./myposts/myposts.module').then(m => m.MypostsModule) },
-  { path: 'users', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
-  { path: 'categories', loadChildren: () => import('./category/category.module').then(m => m.CategoryModule) },
+  { 
+    path: 'myposts', 
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./myposts/myposts.module').then(m => m.MypostsModule) },
+  { 
+    path: 'users', 
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
+  { 
+    path: 'categories',
+    canActivate: [AuthGuard], 
+    loadChildren: () => import('./category/category.module').then(m => m.CategoryModule) },
   { path: '**', component: ErrorComponent }
 ];
 

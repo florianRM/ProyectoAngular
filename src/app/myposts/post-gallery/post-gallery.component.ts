@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Post } from 'src/interfaces/post';
 import { UploadPostComponent } from '../upload-post/upload-post.component';
 import { MypostService } from '../mypost.service';
@@ -7,10 +7,8 @@ import Swal from 'sweetalert2';
 import { LikeService } from 'src/app/services/like.service';
 import { Like } from 'src/interfaces/like';
 import { Router } from '@angular/router';
-import { CommentService } from 'src/app/services/comment.service';
-import { Comment } from 'src/interfaces/comment';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DialogService } from 'primeng/dynamicdialog';
+import { FormBuilder } from '@angular/forms';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { CommentsDialogComponent } from 'src/app/shared/comments-dialog/comments-dialog.component';
 
 @Component({
@@ -23,8 +21,9 @@ export class PostGalleryComponent implements OnInit {
   @Input() posts: Post[] = [];
   likedPosts: Like[] = [];
   visibleComments: boolean = false;
+  ref!: DynamicDialogRef;
 
-  constructor(private fb: FormBuilder, private dialog: MatDialog, private myPostService: MypostService, private likeService: LikeService, private router: Router, private dialogService: DialogService) { }
+  constructor(private myPostService: MypostService, private likeService: LikeService, private router: Router, private dialogService: DialogService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.likeService.getLikes()
@@ -34,22 +33,20 @@ export class PostGalleryComponent implements OnInit {
       })
   }
 
-  openDialogUpload(): void {
-    this.dialog.open(UploadPostComponent, {
-      disableClose: true
-    });
+  openDialog(): void {
+    this.dialog.open(UploadPostComponent);
   }
 
   openCommentDialog(postId: number): void {
     this.dialogService.open(CommentsDialogComponent, {
+      header: "Comments",
+      width: "30vw",
       data: {
         id: postId
-      }
+      },
+      baseZIndex: 10000,
+      modal: true
     })
-  }
-
-  openCommentsDialog(): void {
-    this.visibleComments = !this.visibleComments;
   }
 
   deletePost(id: number): void {
