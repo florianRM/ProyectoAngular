@@ -1,0 +1,28 @@
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.formButtons {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin: 0;
+}
+
+.formButtons button {
+    padding: 7px 20px 7px 20px;
+    margin: 0;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+
+.formButtons .submitButton {
+    background-color: green;
+}
+
+.formButtons .cancelButton {
+    background-color: red;
+}

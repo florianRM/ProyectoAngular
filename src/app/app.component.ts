@@ -27,8 +27,8 @@ export class AppComponent implements OnInit {
     });
   }
 
-  changeStateSideBar(): void {
-    this.open = !this.open;
+  openSidebar(event: boolean): void {
+    this.open = event;
   }
 
   title = 'ProyectoAngular';

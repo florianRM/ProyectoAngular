@@ -1,8 +1,25 @@
-.container {
+.mycontainer {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 100vh;
+}
+
+.contain {
     background-color: #4473ff;
     color: white;
-    height: 100vh;
     overflow: hidden;
+    height: 100%;
+}
+
+.applicationName {
+    padding: 1em;
+    text-align: center;
+}
+
+.applicationName > h1 {
+    margin: 0;
+    font-size: 1.8em;
 }
 
 .followinfo {
@@ -24,7 +41,7 @@
 }
 
 .profile {
-    margin: 15px 0 10px;
+    margin: 0 0 10px;
     width: 120px;
     height: 90px;
     border-radius: 100%;
@@ -73,4 +90,41 @@ a > i {
 
 .activeRoute > i {
     font-size: 20px;
+}
+
+.dialog-style {
+    width: 70vw;
+}
+
+@media only screen and (max-width:480px) {
+    .arrowcontainer {
+        display: flex;
+        align-items: center;
+        background-color: #4473ff;
+        padding: 10px 5px 10px 0;
+        height: 40px;
+        border-radius: 0 100% 100% 0;
+    }
+    
+    .arrow {
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 3px;
+        margin-left: 10%;
+        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+    }
+
+    .arrowClose {
+        margin-left: 20%;
+        transform: rotate(135deg);
+        -webkit-transform: rotate(135deg);
+    }
+}
+
+@media only screen and (orientation: landscape) and (max-height:480px) {
+    .mycontainer {
+        height: max-content;
+    }
 }

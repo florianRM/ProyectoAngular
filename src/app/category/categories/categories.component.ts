@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/interface/user';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-categories',
@@ -58,24 +59,32 @@ export class CategoriesComponent implements OnInit {
           showConfirmButton: false
         })
         this.ngOnInit();
+      },
+      error: (err: HttpErrorResponse) => {
+        Swal.fire({
+          title: 'Error ocurred',
+          text: err.error.message,
+          showCancelButton: true,
+          showConfirmButton: false
+        })
       }
     })
   }
 
   deleteCategory(id: number): void {
-    this.categoryService.deleteCategory(id)
-    .subscribe({
-      next: () => {
-        Swal.fire({
-          title: 'Delete category',
-          icon: 'warning',
-          text: 'Are you sure to delete this category?',
-          showCloseButton: true,
-          showConfirmButton: true,
-          confirmButtonText: 'Delete',
-          confirmButtonColor: 'red'
-        }).then(resp => {
-          if(resp.isConfirmed) {
+    Swal.fire({
+      title: 'Delete category',
+      icon: 'warning',
+      text: 'Are you sure to delete this category?',
+      showCloseButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'Delete',
+      confirmButtonColor: 'red'
+    }).then(resp => {
+      if(resp.isConfirmed) {
+        this.categoryService.deleteCategory(id)
+        .subscribe({
+          next: () => {
             Swal.fire({
               title: 'Successfully',
               text: 'The category has been deleted successfully',

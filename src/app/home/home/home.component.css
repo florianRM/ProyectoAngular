@@ -1,16 +1,18 @@
 .mycontainer {
     display: flex;
     flex-direction: column;
+    align-items: center;
     height: 100%;
 }
 
 h3 {
     margin-top: 10px;
     margin-bottom: 5px;
-    font-size: 30px;
+    font-size: 1.8em;
 }
 
 .postcontainer {
+    width: 80%;
     flex: 1;
 }
 
@@ -22,47 +24,33 @@ h3 {
     margin: 10px 0 30px;
 }
 
-.post-header {
+.post_header {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
     width: 100%;
+    padding: 0.5em;
 }
 
-.buttonUnfollow {
-    flex: 1;
-}
-
-.post_header_info {
-    display: flex;
-    margin-bottom: 3px;
-    width: 60%;
-}
-
-.post-header .followsButton {
+.post_header .followsButton {
     background-color: #4473ff;
     color: white;
     border-radius: 4px;
     border: none;
 }
 
-.username {
-    margin-right: 2%;
-    text-align: left;
-}
-
-.username > p {
-    margin: 0;
+.username > span {
     font-weight: bolder;
-    font-size: 16px;
 }
 
 .post_icons {
-    margin-top: 10px;
-    width: 58%;
+    width: 100%;
+    padding: 10px;
 }
 
 .post_icons > ul {
     display: flex;
+    gap: 1.5em;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -71,7 +59,6 @@ h3 {
 .post_icons > ul i {
     cursor: pointer;
     font-size: 22px;
-    margin-right: 20px;
 }
 
 .bi-heart-fill {
@@ -84,59 +71,30 @@ h3 {
     width: 100%;
 }
 
-.img {
-    width: 60%;
-}
-
 img {
+    position: relative;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-}
-
-.container_footer {
-    display: flex;
-    justify-content: center;
+    z-index: 9;
+    object-fit: fill;
+    border-radius: 4px;
+    background-color: white;
 }
 
 .footer {
     width: 70%;
 }
 
-.containerComment {
-    border: solid 1px;
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    margin-bottom: 5px;
-}
+@media only screen and (max-width:480px) {
+    .post {
+        margin: 0.5em 0 0.7em;
+    }
 
-.comment .username {
-    font-weight: bolder;
-}
+    .postcontainer {
+        width: 90%;
+    }
 
-.formTextArea {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 5em;
-}
-
-.commentTextArea {
-    width: 100%;
-    height: 100%;
-    margin-right: 2%;
-}
-
-.sendButton {
-    background-color: #4473ff;
-    padding: 5px 15px 5px 15px;
-    color: white;
-    border: none;
-    border-radius: 3px;
-}
-
-.uploadDateComment {
-    font-size: 0.8em;
+    .footer {
+        width: 100%;
+    }
 }

@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { User } from '../interface/user';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -52,7 +53,7 @@ export class RegisterComponent implements OnInit {
           }
         })
       },
-      error: (err) => {
+      error: (err: HttpErrorResponse) => {
         Swal.fire({
           icon: 'error',
           title: err.error.message ? err.error.message : 'Unexpected error',

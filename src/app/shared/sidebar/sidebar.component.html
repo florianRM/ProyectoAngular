@@ -1,46 +1,51 @@
-<div *ngIf="user" class="container">
-    <div class="row d-flex justify-content-center">
-        <img *ngIf="user.img;else noPhoto" class="profile" [src]="user.img" />
-        <ng-template #noPhoto>
-            <img class="profile" src="assets/no-photo.webp" />
-        </ng-template>
-        <div class="welcome">
-            <p>Welcome, <span>{{user.username}}</span></p>
+<div *ngIf="user" class="mycontainer">
+    <div class="contain">
+        <div class="applicationName">
+            <h1>Socializate</h1>
         </div>
-        <div class="followinfo">
-            <div class="dates">
-                <p class="followers">{{user.followed.length}} Followers</p>
-                <p class="followed">{{user.user.length}} Followed</p>
+        <div class="row d-flex justify-content-center">
+            <img (click)="openEditUser()" *ngIf="user.img;else noPhoto" class="profile" [src]="user.img" />
+            <ng-template #noPhoto>
+                <img (click)="openEditUser()" class="profile" src="assets/no-photo.webp" />
+            </ng-template>
+            <div class="welcome">
+                <p>Welcome, <span>{{user.username}}</span></p>
+            </div>
+            <div class="followinfo">
+                <div class="dates">
+                    <p class="followers">{{user.followed.length}} Followers</p>
+                    <p class="followed">{{user.user.length}} Followed</p>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="container_routes">
+            <div class="routes">
+                <ul>
+                    <li *ngIf="user.user.length && _existPosts">
+                        <a id="list-home-list" data-toggle="list" role="tab" aria-controls="home" routerLink="/" routerLinkActive="activeRoute" routerLinkActive="activeRoute" [routerLinkActiveOptions]="{exact: true}"><i class="bi bi-house"></i>Home</a>
+                    </li>
+                    <li>
+                        <a id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile" [routerLink]="['/posts']" routerLinkActive="activeRoute"><i class="bi bi-search"></i>Posts</a>
+                    </li>
+                    <li>
+                        <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/myposts" routerLinkActive="activeRoute"><i class="bi bi-image"></i>My Posts</a>
+                    </li>
+                    <li *ngIf="!isMobile()">
+                        <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/chat" routerLinkActive="activeRoute"><i class="bi bi-chat-right-dots-fill"></i>Chat</a>
+                    </li>
+                    <li *ngIf="user.role == 'ADMIN'">
+                        <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/users" routerLinkActive="activeRoute"><i class="bi bi-people"></i>Users</a>
+                    </li>
+                    <li>
+                        <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/categories" routerLinkActive="activeRoute"><i class="bi bi-tags"></i>Categories</a>
+                    </li>
+                </ul>
+                <button (click)="logout()" class="button">Log Out</button>
             </div>
         </div>
     </div>
-    <hr/>
-    <div class="container_routes">
-        <div class="routes">
-            <ul>
-                <li *ngIf="user.user.length && _existPosts">
-                    <a id="list-home-list" data-toggle="list" role="tab" aria-controls="home" routerLink="/" routerLinkActive="activeRoute" routerLinkActive="activeRoute" [routerLinkActiveOptions]="{exact: true}"><i class="bi bi-house"></i>Home</a>
-                </li>
-                <li>
-                    <a id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile" [routerLink]="['/posts']" routerLinkActive="activeRoute"><i class="bi bi-search"></i>Posts</a>
-                </li>
-                <li>
-                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/myposts" routerLinkActive="activeRoute"><i class="bi bi-image"></i>My Posts</a>
-                </li>
-                <li *ngIf="!isMobile()">
-                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/chat" routerLinkActive="activeRoute"><i class="bi bi-chat-right-dots-fill"></i>Chat</a>
-                </li>
-                <li *ngIf="user.role == 'ADMIN'">
-                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/users" routerLinkActive="activeRoute"><i class="bi bi-people"></i>Users</a>
-                </li>
-                <li>
-                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/categories" routerLinkActive="activeRoute"><i class="bi bi-tags"></i>Categories</a>
-                </li>
-                <li>
-                    <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLinkActive="activeRoute"><i class="bi bi-gear"></i>Settings</a>
-                </li>
-            </ul>
-            <button (click)="logout()" class="button">Log Out</button>
-        </div>
+    <div class="arrowcontainer">
+        <span class="arrow" (click)="changeStateSideBar()" [ngClass]="{arrowClose: open}"></span>
     </div>
 </div>

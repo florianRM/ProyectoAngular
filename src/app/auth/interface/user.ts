@@ -4,6 +4,7 @@ export interface User {
     email: string,
     name: string,
     surName: string,
+    lastName: string,
     creationDate: Date,
     enabled: boolean,
     phoneNumber: string,

@@ -75,7 +75,6 @@ export class AuthService {
       return of(false);
     }),
     catchError((err) => {
-      console.log(err);
       return of(true);
     }))
   };

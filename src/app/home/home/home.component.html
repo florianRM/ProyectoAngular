@@ -4,20 +4,16 @@
     </div>
     <div class="postcontainer">
         <div class="post" *ngFor="let post of posts">
-            <div class="post-header">
-                <div class="post_header_info">
-                    <div class="username">
-                        <p>{{ post.user }}</p>
-                    </div>
-                    <div class="buttonUnfollow">
-                        <button class="followsButton" (click)="unfollowUser(post.user)">Unfollow</button>
-                    </div>
+            <div class="post_header">
+                <div class="username">
+                    <span>{{ post.user }}</span>
+                </div>
+                <div class="buttonUnfollow">
+                    <button class="followsButton" (click)="unfollowUser(post.user)">Unfollow</button>
                 </div>
             </div>
             <div class="containerImg">
-                <div class="img">
-                    <img [src]="post.img">
-                </div>
+                <img [src]="post.img">
             </div>
             <div class="post_icons">
                 <ul>
@@ -30,7 +26,5 @@
             </div>
         </div>
     </div>  
-    <div class="container_footer">
-        <app-footer class="footer"></app-footer>
-    </div>
+    <app-footer class="footer"></app-footer>
 </div>

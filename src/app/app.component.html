@@ -1,10 +1,7 @@
 <div class="mycontainer">
   <app-loading></app-loading>
   <div *ngIf="isLogued" class="sidebarcontainer" [ngClass]="{sidebarcontainerOpen: open}">
-    <app-sidebar class="sidebar"></app-sidebar>
-    <div class="arrowcontainer">
-      <span class="arrow" (click)="changeStateSideBar()" [ngClass]="{arrowClose: open}"></span>
-    </div>
+    <app-sidebar class="sidebar" (openSidebar)="openSidebar($event)"></app-sidebar>
   </div>
   <div class="routes" [ngClass]="{routesFilter: open}">
     <router-outlet></router-outlet>

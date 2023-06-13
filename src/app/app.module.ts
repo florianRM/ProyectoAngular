@@ -17,6 +17,7 @@ import { ChatModule } from './chat/chat.module';
 import { StompRService } from '@stomp/ng2-stompjs';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { TooltipModule } from 'primeng/tooltip';
     BrowserAnimationsModule,
     ChatModule,
     DialogModule,
-    TooltipModule
+    TooltipModule,
+    DynamicDialogModule
   ],
   providers: [
     {
@@ -42,11 +44,11 @@ import { TooltipModule } from 'primeng/tooltip';
       useClass: AuthInterceptor,
       multi: true
     },
-    /* {
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
       multi: true
-    }, */
+    },
     StompRService
   ],
   bootstrap: [AppComponent]

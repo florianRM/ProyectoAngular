@@ -110,18 +110,14 @@ img {
     font-size: 0.8em;
 }
 
-@media only screen and (max-width:480px) {
+@media only screen and (max-width:542px) {
     .column {
         flex-basis: 100%;
         max-height: 16em;
     }
-
-    .add_post {
-        height: 12.4475em;
-    }
 }
 
-@media only screen and (min-width: 481px) and (max-width:801px) {
+@media only screen and (min-width: 542px) and (max-width:850px) {
     .column {
         flex-basis: 50%;
     }

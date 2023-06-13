@@ -7,5 +7,14 @@
 body {
     margin: 0;
 }
+
+.swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {
+  z-index: 9999999999 !important;
+}
+  
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.errorMessage, .requiredField {
+  color: red;
+}

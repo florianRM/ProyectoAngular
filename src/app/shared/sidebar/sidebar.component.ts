@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
-import { SharedService } from '../shared.service';
 import { User } from '../../auth/interface/user';
 import { FollowedPostService } from 'src/app/home/followed-post.service';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { EditUserDialogComponent } from '../edit-user-dialog/edit-user-dialog.component';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,16 +15,32 @@ export class SidebarComponent implements OnInit {
 
   user!: User;
   _existPosts: boolean = true;
+  open: boolean = false;
+  @Output()
+  openSidebar: EventEmitter<boolean> = new EventEmitter();
+  refDialog!: DynamicDialogRef;
 
-  constructor(private authService: AuthService, private sharedService: SharedService, private followedPostService: FollowedPostService) { }
+  constructor(private authService: AuthService, private userService: UserService, private followedPostService: FollowedPostService, private dialogService: DialogService) { }
 
   ngOnInit(): void {
     this.userInfo();
     this.existPosts();
   }
 
+  openEditUser(): void {
+    this.refDialog = this.dialogService.open(EditUserDialogComponent, {
+      header: 'Update Profile',
+      closable: false,
+    });
+
+    this.refDialog.onClose
+    .subscribe(() => {
+      this.ngOnInit();
+    })
+  }
+
   userInfo(): void {
-    this.sharedService.getUser()
+    this.userService.getUser()
     .subscribe({
       next: res => {
         this.user = res;
@@ -53,4 +71,8 @@ export class SidebarComponent implements OnInit {
     this.authService.logout();
   }
 
+  changeStateSideBar(): void {
+    this.open = !this.open;
+    this.openSidebar.emit(this.open);
+  }
 }

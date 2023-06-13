@@ -1,21 +1,18 @@
 <div class="mycontainer">
-    <div class="header">
-        <div class="title">
-            <h1>Upload Post</h1>
-        </div>
-    </div>
     <div class="containerImg">
         <form (ngSubmit)="uploadPost()" [formGroup]="myForm" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="title">Title</label>
+                <label for="title">Title<span class="requiredField">*</span></label>
                 <input type="text" name="titlePost" class="titlePost" formControlName="title">
+                <small class="errorMessage" *ngIf="isValidField('title')">The title is required</small>
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
                 <textarea name="description" class="description" cols="30" rows="5" formControlName="description"></textarea>
             </div>
             <div class="form-group">
-                <label for="category">Category</label>
+                <label for="category">Category<span class="requiredField">*</span></label>
+                <small class="infoMessage">(You must choose at least 1 category)</small>
                 <select class="category" name="category" (change)="addCategory($event)" [formControl]="newCategory">
                     <option *ngFor="let category of categoriesForm" [value]="category.id">
                         {{ category.name }}
@@ -24,6 +21,7 @@
                 <div *ngFor="let category of addedCategories;">
                     <span>{{ category }}</span>
                 </div>
+                <small class="errorMessage" *ngIf="isValidField('categories')">You must select at least 1 category</small>
             </div>
             <div class="dropzone">
                 <input type="file" id="fileDropRef" formControlName="img" (change)="onFileChange($event)" />
@@ -31,6 +29,7 @@
                 <h3>or</h3>
                 <label for="fileDropRef">Browse for file</label>
             </div>
+            <small class="errorMessage" *ngIf="isValidField('img')">The image is required</small>
             <div class="file">
                 <div class="info">
                     <h4 class="name">
@@ -40,7 +39,7 @@
             </div>
             <div class="formButtons">
                 <button type="submit" class="submitButton">Upload</button>
-                <button type="button" class="cancelButton" (click)="closeModal()">Cancel</button>
+                <button type="button" class="cancelButton" (click)="closeDialog()">Cancel</button>
             </div>
         </form>
     </div>

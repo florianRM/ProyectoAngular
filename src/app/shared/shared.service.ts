@@ -14,12 +14,7 @@ export class SharedService {
 
   private url = environment.url;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
-
-  getUser(): Observable<User> {
-    const user = this.authService.user;
-    return this.http.get<User>(`${this.url}/user/${user.sub}`);
-  }
+  constructor(private http: HttpClient) { }
 
   followedUser(follow: any): Observable<Follow> {
     return this.http.post<Follow>(`${this.url}/follows/followUser`, follow);

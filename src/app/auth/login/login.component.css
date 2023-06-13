@@ -41,6 +41,7 @@
 .form-field > input {
     border-radius: 3px;
     border: 1px solid;
+    padding: 0.2em;
 }
 
 .form-field > input:focus {
@@ -58,12 +59,18 @@
 }
 
 .button {
-    padding: 3px;
-    width: 50%;
+    padding: 0.3em;
+    width: 60%;
     border-radius: 5px;
     border: none;
     background-color: #4473ff;
     color: white;
+}
+
+.register {
+    font-weight: bolder;
+    display: flex;
+    gap: 0.3em;
 }
 
 .footer {

@@ -16,6 +16,7 @@ import { LikesUsersDialogComponent } from './likes-users-dialog/likes-users-dial
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DialogModule } from 'primeng/dialog';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     CommentsDialogComponent,
     LikesUsersComponent,
     LikesUsersDialogComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    EditUserDialogComponent
   ],
   imports: [
     CommonModule,
@@ -38,8 +40,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     TooltipModule,
-    DynamicDialogModule,
-    DialogModule
+    DialogModule,
+    DynamicDialogModule
   ],
   exports: [
     SidebarComponent,

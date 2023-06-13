@@ -1,0 +1,51 @@
+<div class="my-container" *ngIf="user">
+    <div class="alert alert-success" *ngIf="updatedSucces">
+        <strong>Success!</strong> Your profile has been updated.
+    </div>
+    <form (ngSubmit)="save()" [formGroup]="myForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <div class="container_profile_image">
+                <div class="edit_profile_img" (mouseenter)="changeMouseStatus()" (mouseleave)="changeMouseStatus()">
+                    <input type="file" name="profile_image" (change)="onFileChange($event)">
+                    <img class="profile_photo" [src]="profileImg">
+                    <label for="profile_image" class="camera_photo_container" [ngClass]="{'blur_filter': mouseIn}">
+                        <img class="camera_photo" src="assets/R.png" [ngClass]="{'camera_photo_open': mouseIn}">
+                    </label>
+                </div>
+                <ng-template #noPhoto>
+                    <div class="edit_profile_img" (mouseenter)="changeMouseStatus()" (mouseleave)="changeMouseStatus()">
+                        <input type="file" name="profile_image" (change)="onFileChange($event)">
+                        <img class="profile_photo" [src]="profileImg">
+                        <label for="profile_image" class="camera_photo_container" [ngClass]="{'blur_filter': mouseIn}">
+                            <img class="camera_photo" src="assets/R.png" [ngClass]="{'camera_photo_open': mouseIn}">
+                        </label>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" class="readonlyInput usernameInput" formControlName="username" readonly>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" class="readonlyInput emailInput" formControlName="email" readonly>
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" class="nameInput" formControlName="name">
+        </div>
+        <div class="form-group">
+            <label for="surname">Surname</label>
+            <input type="text" name="surname" class="surnameInput" formControlName="surname">
+        </div>
+        <div class="form-group">
+            <label for="lastname">Last Name</label>
+            <input type="text" name="lastname" class="lastnameInput" formControlName="lastname">
+        </div>
+        <div class="formButtons">
+            <button type="submit" class="submitButton">Update</button>
+            <button type="button" class="cancelButton" (click)="closeModal()">Cancel</button>
+        </div>
+    </form>
+</div>

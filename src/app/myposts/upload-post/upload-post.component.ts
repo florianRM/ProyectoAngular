@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { MypostService } from '../mypost.service';
 import Swal from 'sweetalert2';
 import { CategoryService } from '../../services/category.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { PostService } from 'src/app/services/post.service';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-upload-post',
@@ -24,6 +25,7 @@ export class UploadPostComponent implements OnInit {
   newCategory: FormControl = this.fb.control('', Validators.required);
   categoriesForm: any[] = [];
   addedCategories: any[] = [];
+  mimeTypesAllowed: string[] = ['image/jpeg', 'image/jpg', 'image/png', 'image/svg', 'image/webp'];
 
   json: any = {
     title: '',
@@ -31,7 +33,7 @@ export class UploadPostComponent implements OnInit {
     category: []
   }
 
-  constructor(private categoryService: CategoryService, private fb: FormBuilder, private dialog: MatDialogRef<UploadPostComponent>, private myPostService: MypostService, private router: Router) { }
+  constructor(private categoryService: CategoryService, private dynamicDialogRef: DynamicDialogRef, private fb: FormBuilder, private postService: PostService, private router: Router) { }
 
   uploaded: boolean = false;
   file!: File | null;
@@ -56,28 +58,42 @@ export class UploadPostComponent implements OnInit {
 
   onFileChange(event: any): void {
     this.file = event.target.files[0];
-    if(this.file!.size > 1048576) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Wow, an error has occurred',
-        text: 'Images larger than 1 mb are not allowed'
-      })
-      this.file = null;
-    } else {
-      this.myForm.patchValue({
-        fileSource: this.file
-      })
-      this.uploaded = true;
+    if(this.file != null && this.file != undefined) {
+      if(this.file!.size > 1048576) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Wow, an error has occurred',
+          text: 'Images larger than 1 mb are not allowed'
+        })
+        this.file = null;
+      } else if(!this.mimeTypesAllowed.includes(this.file?.type!)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Wow, an error has occurred',
+          text: 'The mimetype are not allowed'
+        })
+        this.file = null;
+      } else {
+        this.myForm.patchValue({
+          fileSource: this.file
+        })
+        this.uploaded = true;
+      }
     }
   }
 
-  closeModal(): void {
-    this.dialog.close();
+  isValidField(name: string): boolean {
+    return this.myForm.controls[name].invalid && this.myForm.controls[name].touched;
+  }
+
+  closeDialog(): void {
+    this.dynamicDialogRef.close();
   }
 
   uploadPost(): void {
     if(this.myForm.invalid) {
       this.myForm.markAllAsTouched();
+      return;
     }
 
     this.json.title = this.myForm.get('title')?.value;
@@ -88,7 +104,8 @@ export class UploadPostComponent implements OnInit {
     }
     
     const file: File = this.myForm.get('fileSource')?.value;
-    this.myPostService.uploadPost(this.json, file)
+
+    this.postService.uploadPost(this.json, file)
     .subscribe({
       next: (res) => {
         console.log(res)
@@ -99,7 +116,7 @@ export class UploadPostComponent implements OnInit {
           showConfirmButton: true
         }).then(resp => {
           if(resp.isConfirmed) {
-            this.closeModal();
+            this.closeDialog();
             this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
               this.router.navigate(['/myposts']);
             });

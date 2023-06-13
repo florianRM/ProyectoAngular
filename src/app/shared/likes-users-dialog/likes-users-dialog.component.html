@@ -1,5 +1,18 @@
-<ul>
-  <li *ngFor="let like of userLiked">
-    {{ like.user }}
-  </li>
-</ul>
+<div class="my-container">
+  <ul *ngIf="userLiked.length; else notLiked">
+    <li *ngFor="let like of userLiked">
+      {{ like.user }}
+      <div *ngIf="like.user != userInfo.sub">
+        <div *ngIf="!isFollowed(like.user);else unfollowButton">
+            <button class="followsButton" (click)="followUser(like.user)">Follow</button>
+        </div>
+        <ng-template #unfollowButton>
+            <button class="followsButton" (click)="unfollowUser(like.user)">Unfollow</button>
+        </ng-template>
+      </div>
+    </li>
+  </ul>
+  <ng-template #notLiked>
+    <span>This post doesn't has likes.</span>
+  </ng-template>
+</div>

@@ -5,12 +5,18 @@
 .sidebarcontainer {
     display: flex;
     align-items: center;
-    width: 15%;
+    width: auto;
     position: sticky;
     left: 0;
     top: 0;
     height: 100vh;
-    z-index: 99;
+    z-index: 999999;
+    flex: 1;
+}
+
+.sidebar {
+    height: 100%;
+    overflow-y: auto
 }
 
 .arrowcontainer {
@@ -23,43 +29,23 @@
 
 @media only screen and (max-width:480px) {
     .sidebarcontainer {
-        transform: translateX(-90%);
-        width: 50%;
         position: fixed;
+        top: 0;
+        left: 0;
+        max-width: 50%;
+        transform: translateX(-94%);
+        height: 100vh;
         transition: 250ms;
     }
 
     .sidebarcontainerOpen {
+        width: 50%;
+        height: 100vh;
         transform: translateX(0);
     }
 
-    .arrowcontainer {
-        display: flex;
-        align-items: center;
-        background-color: #4473ff;
-        width: 2.5em;
-        height: 40px;
-        border-radius: 0 100% 100% 0;
-    }
-    
-    .arrow {
-        border: solid white;
-        border-width: 0 3px 3px 0;
-        display: inline-block;
-        padding: 3px;
-        margin-left: 10%;
-        transform: rotate(-45deg);
-        -webkit-transform: rotate(-45deg);
-    }
-
-    .arrowClose {
-        margin-left: 20%;
-        transform: rotate(135deg);
-        -webkit-transform: rotate(135deg);
-    }
-
     .routes {
-        width: 97%;
+        width: 100%;
         margin-left: auto;
     }
 

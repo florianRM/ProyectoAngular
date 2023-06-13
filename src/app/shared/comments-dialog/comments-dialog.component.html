@@ -1,25 +1,58 @@
-<ng-container *ngIf="comments.length; else noComments">
-  <div *ngFor="let comment of comments">
-    <div class="containerComment">
-      <div class="comment">
-        <span class="username">{{ comment.user }}: </span>
-        <span class="commentContain">{{ comment.commentContain }}</span>
-      </div>
-      <div>
-        <span class="uploadDateComment">{{ comment.commentDate }}</span>
-      </div>
+<div class="contain">
+  <div class="description" *ngIf="post && post.description" pTooltip="Click for more description">
+    <div class="description-container">
+      <span (click)="changeDescriptionStatus()" [ngClass]="{'deploy-description': openDescription}">{{ post.description }}</span>
     </div>
   </div>
-</ng-container>
-<ng-template #noComments>
-  <span>Be the first to comment</span>
-</ng-template>
-<p-footer>
-  <form (ngSubmit)="commentPost()" [formGroup]="myForm">
-    <div class="formTextArea">
-      <textarea class="commentTextArea" placeholder="Write a comment" autocomplete="nope"
-        formControlName="comment"></textarea>
-      <button class="sendButton" pTooltip="Send comment">Send</button>
+  <ng-container *ngIf="comments.length; else noComments">
+    <div *ngFor="let comment of comments">
+      <div class="containerComment" *ngIf="comment.user != actualUser; else myComment">
+        <div class="comment">
+          <span class="username">{{ comment.user }}: </span>
+          <span class="commentContain">{{ comment.commentContain }}</span>
+        </div>
+        <div>
+          <span class="uploadDateComment">{{ comment.commentDate }}</span>
+        </div>
+      </div>
+      <ng-template #myComment>
+        <div class="container-my-comment">
+          <div class="container-comment">
+            <div class="my-comment">
+              <div class="comment">
+                <span class="username">{{ comment.user }}: </span>
+                <span class="commentContain">{{ comment.commentContain }}</span>
+              </div>
+              <div>
+                <span class="uploadDateComment">{{ comment.commentDate }}</span>
+              </div>
+            </div>
+            <div class="comment-icons">
+              <ul>
+                <li><i class="bi bi-trash3-fill text-danger" (click)="deleteComment(comment.id)"></i></li>
+                <li><i class="bi bi-pencil" (click)="changeVisible(comment.id, comment.commentContain)"></i></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </ng-template>
     </div>
+  </ng-container>
+  <ng-template #noComments>
+    <span>Be the first to comment</span>
+  </ng-template>
+  <p-footer>
+    <form (ngSubmit)="commentPost()" [formGroup]="myForm">
+      <div class="formTextArea">
+        <textarea class="commentTextArea" placeholder="Write a comment" autocomplete="nope"
+          formControlName="comment"></textarea>
+        <button class="sendButton" pTooltip="Send comment">Send</button>
+      </div>
+    </form>
+  </p-footer>
+</div>
+<p-dialog header="Edit comment" [(visible)]="visible" [closable]="true" [modal]="true" [draggable]="false">
+  <form (ngSubmit)="editComment()" [formGroup]="editCommentForm">
+    <input type="text" formControlName="comment">
   </form>
-</p-footer>
+</p-dialog>

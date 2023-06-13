@@ -9,10 +9,11 @@ import { FollowService } from '../../services/follow.service';
 import { LikeService } from 'src/app/services/like.service';
 import { Router } from '@angular/router';
 import { Like } from 'src/interfaces/like';
-import { DialogService } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { LikesUsersDialogComponent } from 'src/app/shared/likes-users-dialog/likes-users-dialog.component';
 import { CommentsDialogComponent } from 'src/app/shared/comments-dialog/comments-dialog.component';
 import { Follow } from 'src/interfaces/follow';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post',
@@ -27,6 +28,10 @@ export class PostComponent implements OnInit {
   userInfo!: JwtPayload;
   likedPosts: Like[] = [];
   follows: Follow[] = [];
+  followedUsers: { [username: string]: boolean } = {};
+  followsSubscription!: Subscription;
+  likesDialogRef!: DynamicDialogRef;
+
 
   constructor(private dialogService: DialogService, private postService: PostService, private authService: AuthService, private followService: FollowService, private likeService: LikeService, private router: Router) { }
 
@@ -50,40 +55,47 @@ export class PostComponent implements OnInit {
   openCommentDialog(postId: number): void {
     this.dialogService.open(CommentsDialogComponent, {
       header: "Comments",
-      width: "30vw",
       data: {
         id: postId
       },
-      baseZIndex: 10000,
-      modal: true
+      baseZIndex: 9999999999,
     })
   }
 
   openLikesDialog(post: Post): void {
-    this.dialogService.open(LikesUsersDialogComponent, {
+     this.likesDialogRef = this.dialogService.open(LikesUsersDialogComponent, {
       header: 'Likes',
-      data: post,
-      modal: true,
-      width: '20vw'
+      data: {
+        post,
+        followedUsers: this.followedUsers
+      }
     });
+
+    this.likesDialogRef.onClose
+    .subscribe({
+      next: () => this.getFollows()
+    })
   }
 
   getFollows(): void {
-    this.followService.getFollowed()
+    if(this.followsSubscription) {
+      this.followsSubscription.unsubscribe();
+    }
+
+    this.followsSubscription = this.followService.getFollowed()
     .subscribe({
       next: (res: Follow[]) => {
         this.follows = res;
+        this.followedUsers = {}
+        this.follows.forEach((follow: Follow) => {
+          this.followedUsers[follow.followed] = true;
+        });
       }
     })
   }
 
   isFollowed(username: string): boolean {
-    for(let i=0; i < this.follows.length; i++) {
-      if(this.follows[i].followed === username) {
-        return true;
-      }
-    }
-    return false;
+    return !!this.followedUsers[username]
   }
 
   findByCategory(query: string): void {
@@ -100,7 +112,7 @@ export class PostComponent implements OnInit {
     const user: string = this.authService.user.sub;
     this.followService.followUser(user, followed)
     .subscribe({
-      next: res => location.reload()
+      next: () => this.getFollows()
     })
 
   }
@@ -108,7 +120,7 @@ export class PostComponent implements OnInit {
   unfollowUser(followed: string): void {
     this.followService.unfollowUser(followed)
     .subscribe({
-      next: () => location.reload()
+      next: () => this.getFollows()
     })
   }
 

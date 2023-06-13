@@ -18,4 +18,12 @@ export class CommentService {
   addComment(comment: any): Observable<Comment> {
     return this.http.post<Comment>(`${environment.url}/comment/add`, comment);
   }
+
+  editComment(id: number, comment: any): Observable<Comment> {
+    return this.http.put<Comment>(`${environment.url}/comment/${id}/edit`, comment);
+  }
+
+  deleteComment(id: number): Observable<Comment> {
+    return this.http.delete<Comment>(`${environment.url}/comment/${id}/delete`);
+  }
 }

@@ -142,7 +142,6 @@ export class PrivateChatComponent implements OnInit, AfterViewChecked {
     this.getMessagesSubscription = this.chatService.getMessages(chatId, this.actualPage)
     .subscribe((res: any) => {
       this.messages.unshift(...res.content);
-      console.log(this.messages)
     })
   }
 

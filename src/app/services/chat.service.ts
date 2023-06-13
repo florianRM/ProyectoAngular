@@ -20,12 +20,12 @@ export class ChatService {
       'userId': this.authService.user.sub
     }
     this.stompService.config = {
-      url: 'ws://localhost:8080/socket',
+      url: environment.socketUrl,
       headers: headers,
       heartbeat_in: 0,
       heartbeat_out: 50000,
       reconnect_delay: 5000,
-      debug: true
+      debug: false
     };
     this.stompService.initAndConnect();
   }
