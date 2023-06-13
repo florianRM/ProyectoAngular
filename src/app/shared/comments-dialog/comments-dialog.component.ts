@@ -94,7 +94,26 @@ export class CommentsDialogComponent implements OnInit {
   }
 
   editComment(): void {
-
+    const comment = {
+      commentContain: this.editCommentForm.controls['comment'].value
+    }
+    console.log(comment)
+    this.commentService.editComment(this.commentId, comment)
+    .subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'The comment was edited correctly'
+        })
+        .then((res) => {
+          if(res.isConfirmed) {
+            this.visible = false;
+            this.getComments();
+          }
+        })
+      }
+    })
   }
 
   deleteComment(id: number): void {

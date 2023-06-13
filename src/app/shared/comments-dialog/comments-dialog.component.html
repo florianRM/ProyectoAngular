@@ -51,8 +51,11 @@
     </form>
   </p-footer>
 </div>
-<p-dialog header="Edit comment" [(visible)]="visible" [closable]="true" [modal]="true" [draggable]="false">
+<p-dialog header="Edit comment" [(visible)]="visible" [closable]="true" [modal]="true" [draggable]="false" [style]="{width: '30vw'}" [breakpoints]="{ '480px': '95vw' }">
   <form (ngSubmit)="editComment()" [formGroup]="editCommentForm">
-    <input type="text" formControlName="comment">
+    <div class="formTextArea">
+      <textarea class="commentTextArea" formControlName="comment"></textarea>
+      <button class="sendButton" pTooltip="Edit comment">Edit</button>
+    </div>
   </form>
 </p-dialog>
