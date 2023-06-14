@@ -65,6 +65,13 @@ h3 {
     color: red;
 }
 
+.likesCount {
+    cursor: pointer;
+    text-decoration: underline;
+    color: blue;
+    margin-right: -1%;
+}
+
 .containerImg {
     display: flex;
     justify-content: center;

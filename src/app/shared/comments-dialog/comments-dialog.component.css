@@ -16,7 +16,7 @@
     overflow-wrap: break-word;
 }
 
-.container-my-comment {
+.container-my-comment, .comment-user {
     border: solid 1px;
     border-radius: 3px;
     display: flex;

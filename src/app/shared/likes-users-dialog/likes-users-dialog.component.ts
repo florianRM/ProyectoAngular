@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { FollowService } from 'src/app/services/follow.service';
 import { Follow } from 'src/interfaces/follow';
 import { Like } from 'src/interfaces/like';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-likes-users-dialog',
@@ -18,7 +19,7 @@ export class LikesUsersDialogComponent implements OnInit {
   follows: Follow[] = [];
   followedUsers: { [username: string]: boolean } = {};
 
-  constructor(private config: DynamicDialogConfig, private authService: AuthService, private followService: FollowService, private changeDetectorRef: ChangeDetectorRef) { }
+  constructor(private config: DynamicDialogConfig, private authService: AuthService, private followService: FollowService, private sharedService: SharedService) { }
 
   ngOnInit(): void {
     this.userInfo = this.authService.user;
@@ -47,7 +48,11 @@ export class LikesUsersDialogComponent implements OnInit {
     const user: string = this.authService.user.sub;
     this.followService.followUser(user, followed)
     .subscribe({
-      next: () => this.getFollows()
+      next: () => {
+        this.getFollows();
+        this.sharedService.refreshExistPosts();
+        this.sharedService.refreshUser();
+      }
     })
 
   }
@@ -55,7 +60,11 @@ export class LikesUsersDialogComponent implements OnInit {
   unfollowUser(followed: string): void {
     this.followService.unfollowUser(followed)
     .subscribe({
-      next: () => this.getFollows()
+      next: () => {
+        this.getFollows();
+        this.sharedService.refreshExistPosts();
+        this.sharedService.refreshUser();
+      }
     })
   }
 

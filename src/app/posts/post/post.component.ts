@@ -14,6 +14,7 @@ import { LikesUsersDialogComponent } from 'src/app/shared/likes-users-dialog/lik
 import { CommentsDialogComponent } from 'src/app/shared/comments-dialog/comments-dialog.component';
 import { Follow } from 'src/interfaces/follow';
 import { Subscription } from 'rxjs';
+import { SharedService } from 'src/app/shared/shared.service';
 
 @Component({
   selector: 'app-post',
@@ -33,7 +34,13 @@ export class PostComponent implements OnInit {
   likesDialogRef!: DynamicDialogRef;
 
 
-  constructor(private dialogService: DialogService, private postService: PostService, private authService: AuthService, private followService: FollowService, private likeService: LikeService, private router: Router) { }
+  constructor(private dialogService: DialogService, 
+            private postService: PostService, 
+            private authService: AuthService, 
+            private followService: FollowService, 
+            private likeService: LikeService, 
+            private router: Router,
+            private sharedService: SharedService) { }
 
   ngOnInit(): void {
     this.userInfo = this.authService.user;
@@ -112,7 +119,11 @@ export class PostComponent implements OnInit {
     const user: string = this.authService.user.sub;
     this.followService.followUser(user, followed)
     .subscribe({
-      next: () => this.getFollows()
+      next: () => {
+        this.getFollows();
+        this.sharedService.refreshExistPosts();
+        this.sharedService.refreshUser();
+      }
     })
 
   }
@@ -120,7 +131,11 @@ export class PostComponent implements OnInit {
   unfollowUser(followed: string): void {
     this.followService.unfollowUser(followed)
     .subscribe({
-      next: () => this.getFollows()
+      next: () => {
+        this.getFollows();
+        this.sharedService.refreshExistPosts();
+        this.sharedService.refreshUser();
+      }
     })
   }
 

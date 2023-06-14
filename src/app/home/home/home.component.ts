@@ -8,8 +8,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommentService } from 'src/app/services/comment.service';
 import { Comment } from 'src/interfaces/comment';
 import { CommentsDialogComponent } from 'src/app/shared/comments-dialog/comments-dialog.component';
-import { DialogService } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FollowService } from 'src/app/services/follow.service';
+import { SharedService } from 'src/app/shared/shared.service';
+import { LikesUsersDialogComponent } from 'src/app/shared/likes-users-dialog/likes-users-dialog.component';
+import { Follow } from 'src/interfaces/follow';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -25,9 +29,19 @@ export class HomeComponent implements OnInit {
   myForm: FormGroup = this.fb.group({
     comment: ['', [Validators.required, Validators.maxLength(500)]]
   })
+  follows: Follow[] = [];
+  followedUsers: { [username: string]: boolean } = {};
   postId: number = 0;
+  likesDialogRef!: DynamicDialogRef;
+  followsSubscription!: Subscription;
 
-  constructor(private dialogService: DialogService, private fb: FormBuilder, private followedPost: FollowedPostService, private likeService: LikeService, private router: Router, private followService: FollowService) { }
+  constructor(private dialogService: DialogService,
+            private fb: FormBuilder, 
+            private followedPost: FollowedPostService, 
+            private likeService: LikeService, 
+            private router: Router, 
+            private followService: FollowService,
+            private sharedService: SharedService) { }
 
   ngOnInit(): void {
     this.likeService.getLikes()
@@ -36,6 +50,39 @@ export class HomeComponent implements OnInit {
         error: err => this.router.navigate(['/error'])
       })
     this.followedPosts();
+    this.getFollows();
+  }
+
+  openLikesDialog(post: Post): void {
+    this.likesDialogRef = this.dialogService.open(LikesUsersDialogComponent, {
+      header: 'Likes',
+      data: {
+        post,
+        followedUsers: this.followedUsers
+      }
+    });
+
+    this.likesDialogRef.onClose
+    .subscribe({
+      next: () => this.getFollows()
+    })
+  }
+
+  getFollows(): void {
+    if(this.followsSubscription) {
+      this.followsSubscription.unsubscribe();
+    }
+
+    this.followsSubscription = this.followService.getFollowed()
+    .subscribe({
+      next: (res: Follow[]) => {
+        this.follows = res;
+        this.followedUsers = {}
+        this.follows.forEach((follow: Follow) => {
+          this.followedUsers[follow.followed] = true;
+        });
+      }
+    })
   }
 
   followedPosts(): void {
@@ -92,11 +139,10 @@ export class HomeComponent implements OnInit {
   openCommentDialog(postId: number): void {
     this.dialogService.open(CommentsDialogComponent, {
       header: "Comments",
-      width: "30vw",
       data: {
         id: postId
       },
-      baseZIndex: 10000,
+      baseZIndex: 99999999,
       modal: true
     })
   }
@@ -104,7 +150,10 @@ export class HomeComponent implements OnInit {
   unfollowUser(followed: string): void {
     this.followService.unfollowUser(followed)
     .subscribe({
-      next: () => location.reload()
+      next: () => {
+        this.sharedService.refreshExistPosts();
+        this.sharedService.refreshUser();
+      }
     })
   }
 

@@ -1,17 +1,19 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, OnDestroy } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/interface/user';
 import { FollowedPostService } from 'src/app/home/followed-post.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditUserDialogComponent } from '../edit-user-dialog/edit-user-dialog.component';
 import { UserService } from 'src/app/services/user.service';
+import { SharedService } from '../shared.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
 
   user!: User;
   _existPosts: boolean = true;
@@ -19,12 +21,20 @@ export class SidebarComponent implements OnInit {
   @Output()
   openSidebar: EventEmitter<boolean> = new EventEmitter();
   refDialog!: DynamicDialogRef;
+  existPostSubscription!: Subscription;
 
-  constructor(private authService: AuthService, private userService: UserService, private followedPostService: FollowedPostService, private dialogService: DialogService) { }
+  constructor(private authService: AuthService, private sharedService: SharedService, private dialogService: DialogService) { }
 
   ngOnInit(): void {
     this.userInfo();
-    this.existPosts();
+    this.existPostSubscription = this.sharedService.existPost
+    .subscribe({
+      next: res => this._existPosts = res
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.existPostSubscription.unsubscribe();
   }
 
   openEditUser(): void {
@@ -40,31 +50,14 @@ export class SidebarComponent implements OnInit {
   }
 
   userInfo(): void {
-    this.userService.getUser()
+    this.sharedService.user
     .subscribe({
       next: res => {
+        console.log(res)
         this.user = res;
       },
       error: err => console.log(err)
     })
-  }
-
-  existPosts(): void {
-    this.followedPostService.followedPosts()
-    .subscribe({
-      next: (res) => {
-        if(!res.totalElements) {
-          this._existPosts = false
-        }
-      }
-    })
-  }
-
-  isMobile(): boolean {
-    if(window.screen.width < 480) {
-      return true;
-    }
-    return false;
   }
 
   logout(): void {

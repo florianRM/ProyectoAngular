@@ -6,13 +6,15 @@
   </div>
   <ng-container *ngIf="comments.length; else noComments">
     <div *ngFor="let comment of comments">
-      <div class="containerComment" *ngIf="comment.user != actualUser; else myComment">
-        <div class="comment">
-          <span class="username">{{ comment.user }}: </span>
-          <span class="commentContain">{{ comment.commentContain }}</span>
-        </div>
-        <div>
-          <span class="uploadDateComment">{{ comment.commentDate }}</span>
+      <div class="container-comment" *ngIf="comment.user != actualUser; else myComment">
+        <div class="comment-user">
+          <div class="comment">
+            <span class="username">{{ comment.user }}: </span>
+            <span class="commentContain">{{ comment.commentContain }}</span>
+          </div>
+          <div>
+            <span class="uploadDateComment">{{ comment.commentDate }}</span>
+          </div>
         </div>
       </div>
       <ng-template #myComment>

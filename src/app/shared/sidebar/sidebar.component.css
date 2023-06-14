@@ -121,10 +121,18 @@ a > i {
         transform: rotate(135deg);
         -webkit-transform: rotate(135deg);
     }
+
+    .chat-icon {
+        display: none;
+    }
 }
 
 @media only screen and (orientation: landscape) and (max-height:480px) {
     .mycontainer {
         height: max-content;
+    }
+
+    .chat-icon {
+        display: none;
     }
 }

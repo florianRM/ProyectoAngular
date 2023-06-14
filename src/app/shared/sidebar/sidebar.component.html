@@ -12,7 +12,7 @@
                 <p>Welcome, <span>{{user.username}}</span></p>
             </div>
             <div class="followinfo">
-                <div class="dates">
+                <div class="dates" *ngIf="user">
                     <p class="followers">{{user.followed.length}} Followers</p>
                     <p class="followed">{{user.user.length}} Followed</p>
                 </div>
@@ -31,7 +31,7 @@
                     <li>
                         <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/myposts" routerLinkActive="activeRoute"><i class="bi bi-image"></i>My Posts</a>
                     </li>
-                    <li *ngIf="!isMobile()">
+                    <li class="chat-icon">
                         <a id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages" routerLink="/chat" routerLinkActive="activeRoute"><i class="bi bi-chat-right-dots-fill"></i>Chat</a>
                     </li>
                     <li *ngIf="user.role == 'ADMIN'">
