@@ -18,6 +18,7 @@ import { StompRService } from '@stomp/ng2-stompjs';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
     ChatModule,
     DialogModule,
     TooltipModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    InfiniteScrollModule
   ],
   providers: [
     {

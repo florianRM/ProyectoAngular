@@ -6,6 +6,8 @@ import { SharedModule } from '../shared/shared.module';
 import { RegisterComponent } from './register/register.component';
 import { RouterLink, RouterModule } from '@angular/router';
 import { VerifyComponent } from './verify/verify.component'
+import { ChatService } from '../services/chat.service';
+import { AuthService } from './auth.service';
 
 @NgModule({
   declarations: [

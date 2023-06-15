@@ -7,7 +7,6 @@ import { AuthGuard } from './auth/auth.guard';
 import { VerifyComponent } from './auth/verify/verify.component';
 import { LoginGuard } from './auth/login.guard';
 import { ErrorComponent } from './shared/error/error.component';
-import { ChatGuard } from './chat/chat.guard';
 
 const routes: Routes = [
   { 
@@ -23,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'chat',
-    canActivate: [AuthGuard, ChatGuard],
+    canActivate: [AuthGuard],
     loadChildren: () => import('./chat/chat-routing.module').then(m => m.ChatRoutingModule)
   },
   {

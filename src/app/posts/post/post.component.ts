@@ -77,11 +77,6 @@ export class PostComponent implements OnInit {
         followedUsers: this.followedUsers
       }
     });
-
-    this.likesDialogRef.onClose
-    .subscribe({
-      next: () => this.getFollows()
-    })
   }
 
   getFollows(): void {

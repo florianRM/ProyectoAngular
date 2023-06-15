@@ -56,16 +56,23 @@ img {
 .post_icons > ul {
     display: flex;
     justify-content: center;
+    align-items: center;
     list-style: none;
     margin: 0;
     padding: 0;
     margin-top: 5px;
+    gap: 1em;
 }
 
 .post_icons > ul i {
     cursor: pointer;
     font-size: 20px;
-    margin-right: 20px;
+}
+
+.likesCount {
+    cursor: pointer;
+    text-decoration: underline;
+    color: blue;
 }
 
 .bi-heart-fill {

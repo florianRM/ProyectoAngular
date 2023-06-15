@@ -1,10 +1,8 @@
 import { Component, EventEmitter, OnInit, Output, OnDestroy } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/interface/user';
-import { FollowedPostService } from 'src/app/home/followed-post.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { EditUserDialogComponent } from '../edit-user-dialog/edit-user-dialog.component';
-import { UserService } from 'src/app/services/user.service';
 import { SharedService } from '../shared.service';
 import { Subscription } from 'rxjs';
 
@@ -23,10 +21,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
   refDialog!: DynamicDialogRef;
   existPostSubscription!: Subscription;
 
-  constructor(private authService: AuthService, private sharedService: SharedService, private dialogService: DialogService) { }
+  constructor(private authService: AuthService, private sharedService: SharedService, private dialogService: DialogService) {
+  }
 
   ngOnInit(): void {
     this.userInfo();
+    this.sharedService.refreshUser();
     this.existPostSubscription = this.sharedService.existPost
     .subscribe({
       next: res => this._existPosts = res
@@ -41,19 +41,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.refDialog = this.dialogService.open(EditUserDialogComponent, {
       header: 'Update Profile',
       closable: false,
+      modal: true
     });
-
-    this.refDialog.onClose
-    .subscribe(() => {
-      this.ngOnInit();
-    })
   }
 
   userInfo(): void {
     this.sharedService.user
     .subscribe({
       next: res => {
-        console.log(res)
         this.user = res;
       },
       error: err => console.log(err)
@@ -61,6 +56,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
+    this.openSidebar.emit(false);
     this.authService.logout();
   }
 

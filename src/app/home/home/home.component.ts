@@ -14,6 +14,7 @@ import { SharedService } from 'src/app/shared/shared.service';
 import { LikesUsersDialogComponent } from 'src/app/shared/likes-users-dialog/likes-users-dialog.component';
 import { Follow } from 'src/interfaces/follow';
 import { Subscription } from 'rxjs';
+import { IInfiniteScrollEvent } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-home',
@@ -34,6 +35,7 @@ export class HomeComponent implements OnInit {
   postId: number = 0;
   likesDialogRef!: DynamicDialogRef;
   followsSubscription!: Subscription;
+  actualPage: number = 1;
 
   constructor(private dialogService: DialogService,
             private fb: FormBuilder, 
@@ -89,8 +91,8 @@ export class HomeComponent implements OnInit {
     this.followedPost.followedPosts()
     .subscribe({
       next: res => {
-        this.posts = res.content;
-        if(!res.content.length) {
+        this.posts = res;
+        if(!res.length) {
           this.router.navigate(['/posts'])
         }
       },
@@ -151,6 +153,7 @@ export class HomeComponent implements OnInit {
     this.followService.unfollowUser(followed)
     .subscribe({
       next: () => {
+        this.followedPosts();
         this.sharedService.refreshExistPosts();
         this.sharedService.refreshUser();
       }

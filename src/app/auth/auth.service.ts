@@ -7,6 +7,7 @@ import { User } from './interface/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 import { environment } from 'src/environments/environment.prod';
+import { ChatService } from '../services/chat.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class AuthService {
   }
   private loggedIn = new BehaviorSubject<boolean> (false);
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private router:Router) { 
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router:Router, private chatService: ChatService) { 
     this.http.get<any>(`${this.url}/isAuthenticated`)
     .subscribe({
       next: (res) => this.loggedIn.next(res.valid),
@@ -81,7 +82,9 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.loggedIn.next(false);
+    this.chatService.disconnect();
     this.router.navigate(['/login']);
   }
 

@@ -11,6 +11,7 @@
         </div>
         <div class="post_icons">
             <ul>
+                <li class="likesCount" (click)="openLikesDialog(post)" pTooltip="View likes">{{ post.likes.length }}</li>
                 <li *ngIf="!isLikedPost(post.id);else liked"><i class="bi bi-heart" (click)="giveLike(post)"></i></li>
                 <ng-template #liked>
                     <li><i class="bi bi-heart-fill" (click)="removeLike(post)"></i></li>

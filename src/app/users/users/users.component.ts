@@ -30,6 +30,7 @@ export class UsersComponent implements OnInit {
       {field: 'name', header: 'Name'},
       {field: 'creationDate', header: 'Creation Date'},
       {field: 'enabled', header: 'Enabled'},
+      {field: 'role', header: 'Role'}
     ]
   }
 

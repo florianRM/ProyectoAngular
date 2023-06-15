@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../auth/interface/user';
 import { environment } from 'src/environments/environment.prod';
 import { AuthService } from '../auth/auth.service';
@@ -28,7 +28,7 @@ export class UserService {
 
   updateUser(username: string, userUpdated: any, file: File): Observable<User> {
     const form: FormData = new FormData();
-    if(file.length) {
+    if(file) {
       form.append('file', file, file.name);
     }
     form.append('user', new Blob([JSON.stringify(userUpdated)], {type: 'application/json'}));

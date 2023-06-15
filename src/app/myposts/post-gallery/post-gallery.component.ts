@@ -9,6 +9,10 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { CommentsDialogComponent } from 'src/app/shared/comments-dialog/comments-dialog.component';
 import { PostService } from 'src/app/services/post.service';
 import { EditPostDialogComponent } from '../edit-post-dialog/edit-post-dialog.component';
+import { LikesUsersDialogComponent } from 'src/app/shared/likes-users-dialog/likes-users-dialog.component';
+import { Subscription } from 'rxjs';
+import { Follow } from 'src/interfaces/follow';
+import { FollowService } from 'src/app/services/follow.service';
 
 @Component({
   selector: 'app-post-gallery',
@@ -21,8 +25,12 @@ export class PostGalleryComponent implements OnInit {
   likedPosts: Like[] = [];
   visibleComments: boolean = false;
   ref!: DynamicDialogRef;
+  likesDialogRef!: DynamicDialogRef;
+  follows: Follow[] = [];
+  followedUsers: { [username: string]: boolean } = {};
+  followsSubscription!: Subscription;
 
-  constructor(private postService: PostService, private likeService: LikeService, private router: Router, private dialogService: DialogService) { }
+  constructor(private postService: PostService, private likeService: LikeService, private router: Router, private dialogService: DialogService, private followService: FollowService) { }
 
   ngOnInit(): void {
     this.likeService.getLikes()
@@ -50,6 +58,16 @@ export class PostGalleryComponent implements OnInit {
     })
   }
 
+  openLikesDialog(post: Post): void {
+    this.likesDialogRef = this.dialogService.open(LikesUsersDialogComponent, {
+     header: 'Likes',
+     data: {
+       post,
+       followedUsers: this.followedUsers
+     }
+   });
+ }
+
   openEditDialog(post: Post): void {
     this.ref = this.dialogService.open(EditPostDialogComponent, {
       header: "Edit Post",
@@ -58,6 +76,23 @@ export class PostGalleryComponent implements OnInit {
       },
       baseZIndex: 99999999999
     });
+  }
+
+  getFollows(): void {
+    if(this.followsSubscription) {
+      this.followsSubscription.unsubscribe();
+    }
+
+    this.followsSubscription = this.followService.getFollowed()
+    .subscribe({
+      next: (res: Follow[]) => {
+        this.follows = res;
+        this.followedUsers = {}
+        this.follows.forEach((follow: Follow) => {
+          this.followedUsers[follow.followed] = true;
+        });
+      }
+    })
   }
   
   deletePost(id: number): void {

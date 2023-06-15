@@ -33,8 +33,10 @@
                             <small class="errorHelper" *ngIf="isValid('name')">Name is required</small>
                         </div>
                     </div>
-                    <input type="checkbox" name="conditions" class="conditions" formControlName="conditions">
-                    <span> I have read and accepted the Conditions</span>
+                    <div class="confirm-conditions">
+                        <input type="checkbox" name="conditions" class="conditions" formControlName="conditions">
+                        <span> I have read and accepted the Conditions</span>
+                    </div>
                     <div class="formDown">
                         <button type="submit" class="button buttonSubmit" [disabled]="myForm.invalid">Register</button>
                         <span class="texthelper">OR</span>

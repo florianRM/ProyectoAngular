@@ -1,15 +1,12 @@
-<form (ngSubmit)="save()" [formGroup]="myForm">
-    <div class="form-group">
-        <label for="postTile">Title</label>
-        <input type="text" name="postTitle" class="postTitle" formControlName="title">
-        <small class="errorMessage" *ngIf="isValidField('title')">The title is required</small>
-    </div>
-    <div class="form-group">
-        <label for="description">Description</label>
-        <textarea name="description" class="description" cols="30" rows="5" formControlName="description"></textarea>
-    </div>
-    <div class="formButtons">
-        <button type="submit" class="submitButton">Update</button>
-        <button type="button" class="cancelButton" (click)="closeDialog()">Cancel</button>
-    </div>
-</form>
+<div class="container">
+    <form (ngSubmit)="save()" [formGroup]="myForm">
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea name="description" class="description" cols="30" rows="5" formControlName="description"></textarea>
+        </div>
+        <div class="formButtons">
+            <button type="submit" class="submitButton">Update</button>
+            <button type="button" class="cancelButton" (click)="closeDialog()">Cancel</button>
+        </div>
+    </form>
+</div>

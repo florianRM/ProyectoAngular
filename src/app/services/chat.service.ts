@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StompHeaders, StompRService } from '@stomp/ng2-stompjs';
-import { ChatMessage } from 'src/interfaces/message';
-import { AuthService } from '../auth/auth.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment.prod';
 import { Chat, CreateChat, CreateGroup } from 'src/interfaces/chat';
@@ -11,14 +9,39 @@ import { Chat, CreateChat, CreateGroup } from 'src/interfaces/chat';
   providedIn: 'root'
 })
 export class ChatService {
+
+  private userId: string = '';
+  private closeChats = new BehaviorSubject<boolean>(false);
   
-  constructor(private stompService: StompRService, private authService: AuthService, private http: HttpClient) {
+  constructor(private stompService: StompRService, private http: HttpClient) {
+    if(sessionStorage.getItem('isClosedChat') === 'true') {
+      this.closeChats.next(true);
+    }
+  }
+
+  get isCloseChats() {
+    return this.closeChats.asObservable();
+  }
+
+  changeToCloseChat(): void {
+    this.closeChats.next(true);
+    sessionStorage.setItem('isClosedChat', 'true');
+  }
+
+  changeToOpenChat(): void {
+    this.closeChats.next(false);
+    sessionStorage.setItem('isClosedChat', 'false');
   }
 
   connect() {
-    const headers: StompHeaders = {
-      'userId': this.authService.user.sub
+    const user = localStorage.getItem('user');
+    if(user != null) {
+      this.userId = JSON.parse(user).sub;
     }
+    const headers: StompHeaders = {
+      'userId': this.userId
+    }
+
     this.stompService.config = {
       url: environment.socketUrl,
       headers: headers,
@@ -27,6 +50,7 @@ export class ChatService {
       reconnect_delay: 5000,
       debug: false
     };
+
     this.stompService.initAndConnect();
   }
 
@@ -34,7 +58,7 @@ export class ChatService {
     this.stompService.disconnect();
   }
 
-  sendPrivateMessage(privateMessage: ChatMessage) {
+  sendPrivateMessage(privateMessage: any) {
     this.stompService.publish({ destination: `/app/chat`, body: JSON.stringify(privateMessage) });
   }
 
@@ -47,11 +71,11 @@ export class ChatService {
   }
 
   subscribeToPrivateMessages(chatId: string) {
-    return this.stompService.subscribe(`/topic/chat.${chatId}.${this.authService.user.sub}`);
+    return this.stompService.subscribe(`/topic/chat.${chatId}.${this.userId}`);
   }
 
   getChatsForUser(): Observable<Chat[]> {
-    return this.http.get<Chat[]>(`${environment.url}/chats/${this.authService.user.sub}`);
+    return this.http.get<Chat[]>(`${environment.url}/chats/${this.userId}`);
   }
 
   getChat(chatId: string): Observable<Chat> {
@@ -72,6 +96,14 @@ export class ChatService {
 
   addMembers(chatId: string, members: any[]): Observable<Chat> {
     return this.http.put<Chat>(`${environment.url}/chat/group/${chatId}/addmembers`, members);
+  }
+
+  leaveGroup(chatId: string): Observable<Chat> {
+    return this.http.delete<Chat>(`${environment.url}/chat/${chatId}/leave/${this.userId}`);
+  }
+
+  deleteChat(chatId: string): Observable<Chat> {
+    return this.http.delete<Chat>(`${environment.url}/chat/${chatId}/delete`);
   }
 
 }

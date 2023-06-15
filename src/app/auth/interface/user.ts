@@ -7,7 +7,6 @@ export interface User {
     lastName: string,
     creationDate: Date,
     enabled: boolean,
-    phoneNumber: string,
     role: string,
     user: Follow[],
     followed: Follow[],

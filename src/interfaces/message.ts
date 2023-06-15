@@ -3,5 +3,5 @@ export interface ChatMessage {
     recipient: string,
     message: string,
     chatId: string,
-    sendDate: Date
+    sendDate: string
 }

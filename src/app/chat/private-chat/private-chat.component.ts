@@ -31,47 +31,47 @@ export class PrivateChatComponent implements OnInit, AfterViewChecked {
   _missingFollowers: string[] = [];
   actualPage: number = 1;
   getMessagesSubscription!: Subscription;
-  
+
   constructor(private chatService: ChatService, private authService: AuthService, private activatedRoute: ActivatedRoute, private followService: FollowService, private router: Router, private ngZone: NgZone) {
     this.userLogued = authService.user.sub;
   }
 
   ngOnInit() {
     this.activatedRoute.params
-    .subscribe((res) => {
-      this.chatId = res['id'];
-      this.messages = [];
-      this.getMessages(this.chatId);
-      this.suscribeToPrivateMessages();
-      this.chatService.getChat(res['id'])
-      .subscribe({
-        next: (res: Chat) => {
-          this.chat = res;
-          this.missingFollowers();
-        },
-        error: (err: HttpErrorResponse) => {
-          if(err.status === 401) {
-            Swal.fire({
-              title: 'Wow looks like an error has occurred',
-              text: "You don't have access to this chat"
-            }).then(result => {
-              if(result.isConfirmed) {
-                this.router.navigate(['chat']);
+      .subscribe((res) => {
+        this.chatId = res['id'];
+        this.messages = [];
+        this.getMessages(this.chatId);
+        this.suscribeToPrivateMessages();
+        this.chatService.getChat(res['id'])
+          .subscribe({
+            next: (res: Chat) => {
+              this.chat = res;
+              this.missingFollowers();
+            },
+            error: (err: HttpErrorResponse) => {
+              if (err.status === 401) {
+                Swal.fire({
+                  title: 'Wow looks like an error has occurred',
+                  text: "You don't have access to this chat"
+                }).then(result => {
+                  if (result.isConfirmed) {
+                    this.router.navigate(['chat']);
+                  }
+                })
+              } else if (err.status === 404) {
+                Swal.fire({
+                  title: 'Wow looks like an error has occurred',
+                  text: err.error.message
+                }).then(result => {
+                  if (result.isConfirmed) {
+                    this.router.navigate(['chat']);
+                  }
+                })
               }
-            })
-          } else if(err.status === 404) {
-            Swal.fire({
-              title: 'Wow looks like an error has occurred',
-              text: err.error.message
-            }).then(result => {
-              if(result.isConfirmed) {
-                this.router.navigate(['chat']);
-              }
-            })
-          }
-        }
-      })
-    });
+            }
+          })
+      });
     this.getFollowed();
   }
 
@@ -83,10 +83,11 @@ export class PrivateChatComponent implements OnInit, AfterViewChecked {
 
   ngOnDestroy() {
     this._suscribeToPrivateMessages.unsubscribe();
+    this.chatService.changeToOpenChat();
   }
 
   private suscribeToPrivateMessages() {
-    if(this._suscribeToPrivateMessages) {
+    if (this._suscribeToPrivateMessages) {
       this._suscribeToPrivateMessages.unsubscribe();
     }
     this._suscribeToPrivateMessages = this.chatService.subscribeToPrivateMessages(this.chatId).subscribe((message: IMessage) => {
@@ -95,39 +96,48 @@ export class PrivateChatComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  changeStatusChats(): void {
+    this.chatService.changeToOpenChat();
+    this.router.navigate(['/chat'])
+  }
+
   onScrolledUp(event: IInfiniteScrollEvent): void {
     this.scrollContainer.nativeElement = event;
-    this.actualPage++;
+    ++this.actualPage;
     this.getMessages(this.chatId);
   }
 
   openDialog(): void {
     this.visible = !this.visible;
+    this.missingFollowers();
   }
 
   getFollowed(): void {
     this.followService.getFollowed()
-    .subscribe((res) => {
-      this.followList = res;
-    })
+      .subscribe((res) => {
+        this.followList = res;
+      })
   }
 
-  missingFollowers(): string[] {
-    if(this.chat.group) {
-      const members = this.chat.members;
-      this.followList.forEach((value) => {
-        if(!members.includes(value.followed)) {
-          this._missingFollowers.push(value.followed);
+  missingFollowers(): void {
+    if (this.chat.group) {
+      const members = new Set<string>(this.chat.members);
+      const missingFollowers: string[] = [];
+
+      for (const follow of this.followList) {
+        if (!members.has(follow.followed)) {
+          missingFollowers.push(follow.followed);
         }
-      })
+      }
+
+      this._missingFollowers = missingFollowers;
     }
-    return this._missingFollowers;
   }
 
   addedMember(member: string): boolean {
     let exist = false;
-    for(let i=0; i < this.addedMembers.length && !exist; i++) {
-      if(this.addedMembers[i].username === member) {
+    for (let i = 0; i < this.addedMembers.length && !exist; i++) {
+      if (this.addedMembers[i].username === member) {
         exist = true;
       }
     }
@@ -140,23 +150,46 @@ export class PrivateChatComponent implements OnInit, AfterViewChecked {
 
   private getMessages(chatId: string): void {
     this.getMessagesSubscription = this.chatService.getMessages(chatId, this.actualPage)
-    .subscribe((res: any) => {
-      this.messages.unshift(...res.content);
-    })
+      .subscribe((res: any) => {
+        this.messages.unshift(...res.content);
+      })
   }
 
   sendMessage() {
-    const sender: string = this.authService.user.sub;
-    const recipient: string = this.chat.members.filter(value => value != sender)[0];
-    const chatMessage: ChatMessage = {
-      sender,
-      recipient,
-      message: this.messageInput,
-      chatId: this.chatId,
-      sendDate: new Date()
+    if (!this.messageInput.length) {
+      return;
     }
+    const sender: string = this.authService.user.sub;
+    let chatMessage: any;
+
+    if (!this.chat.group) {
+      const recipient: string = this.chat.members.filter(value => value != sender)[0];
+      chatMessage = {
+        sender,
+        recipient,
+        message: this.messageInput,
+        chatId: this.chatId
+      }
+    } else {
+      chatMessage = {
+        sender,
+        message: this.messageInput,
+        chatId: this.chatId
+      }
+    }
+
     this.chatService.sendPrivateMessage(chatMessage);
     this.messageInput = '';
+  }
+
+  private sendMessageInfo(): void {
+    const username: string = this.authService.user.sub;
+    const message: string = `${username} leave the group`;
+    const chatMessage = {
+      message,
+      chatId: this.chatId
+    }
+    this.chatService.sendPrivateMessage(chatMessage);
   }
 
   getRecipientUser(): string {
@@ -164,18 +197,55 @@ export class PrivateChatComponent implements OnInit, AfterViewChecked {
   }
 
   addMember(member: string): void {
-    this.addedMembers.push({'username': member});
+    this.addedMembers.push({ 'username': member });
   }
 
   addMembers(): void {
     this.chatService.addMembers(this.chat.id, this.addedMembers)
-    .subscribe({
-      next: () => {
-        this.visible = false;
-        this._missingFollowers = [];
-        this.ngOnInit();
-      }
-    });
+      .subscribe({
+        next: () => {
+          this.visible = false;
+          this._missingFollowers = [];
+          this.ngOnInit();
+        }
+      });
+  }
+
+  deleteChat(): void {
+    Swal.fire({
+      icon: 'warning',
+      text: `Do you want to leave group ${this.chat.name}?`,
+      showConfirmButton: true,
+      showCancelButton: true
+    })
+      .then((res) => {
+        if (res.isConfirmed) {
+          this.chatService.deleteChat(this.chatId)
+            .subscribe({
+              next: () => this.router.navigate(['/chat'])
+            })
+        }
+      })
+  }
+
+  leaveGroup(): void {
+    Swal.fire({
+      icon: 'warning',
+      text: `Do you want delete this chat?`,
+      showConfirmButton: true,
+      showCancelButton: true
+    })
+      .then((res) => {
+        if (res.isConfirmed) {
+          this.chatService.leaveGroup(this.chatId)
+            .subscribe({
+              next: () => {
+                this.sendMessageInfo();
+                this.router.navigate(['/chat'])
+              }
+            })
+        }
+      })
   }
 
 }

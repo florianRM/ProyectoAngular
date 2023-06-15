@@ -16,7 +16,6 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 export class UploadPostComponent implements OnInit {
 
   myForm: FormGroup = this.fb.group({
-    title: ['', Validators.required],
     description: [''],
     img: ['', Validators.required],
     categories: this.fb.array([], Validators.required),
@@ -51,8 +50,10 @@ export class UploadPostComponent implements OnInit {
 
   addCategory(event: any): void {
     let text = event.target.options[event.target.options.selectedIndex].text;
-    this.addedCategories.push(text);
-    this.categories.push(this.fb.control(this.newCategory.value, Validators.required))
+    if(!this.addedCategories.includes(text)) {
+      this.addedCategories.push(text);
+      this.categories.push(this.fb.control(this.newCategory.value, Validators.required))
+    }
     this.newCategory.reset();
   }
 
@@ -108,11 +109,10 @@ export class UploadPostComponent implements OnInit {
     this.postService.uploadPost(this.json, file)
     .subscribe({
       next: (res) => {
-        console.log(res)
         Swal.fire({
           icon: 'success',
           title: 'Successful Upload',
-          text: `Image with name ${res.title} has been uploaded`,
+          text: `Image has been uploaded`,
           showConfirmButton: true
         }).then(resp => {
           if(resp.isConfirmed) {

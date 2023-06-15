@@ -22,7 +22,6 @@ export class EditPostDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.myForm = this.fb.group({
-      title: [`${this.post.title}`, Validators.required],
       description: [`${this.post.description}`]
     })
   }

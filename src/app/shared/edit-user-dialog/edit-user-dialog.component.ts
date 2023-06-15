@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { User } from 'src/app/auth/interface/user';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
+import { SharedService } from '../shared.service';
 
 @Component({
   selector: 'app-edit-user-dialog',
@@ -27,7 +28,7 @@ export class EditUserDialogComponent implements OnInit {
     lastName: ''
   }
 
-  constructor(private fb: FormBuilder, private userService: UserService, private dynamicDialogRef: DynamicDialogRef) {
+  constructor(private fb: FormBuilder, private userService: UserService, private dynamicDialogRef: DynamicDialogRef, private sharedService: SharedService) {
   }
 
   ngOnInit(): void {
@@ -109,11 +110,12 @@ export class EditUserDialogComponent implements OnInit {
     const file: File = this.myForm.get('fileSource')?.value;
     this.userService.updateUser(this.user.username, this.json, file)
     .subscribe({
-      next: () => {
+      next: (res) => {
         this.updatedSucces = true;
         setTimeout(() => {
           this.updatedSucces = false;
         }, 5000);
+        this.sharedService.refreshUser();
       }
     })
   }

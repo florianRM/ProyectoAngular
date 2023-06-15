@@ -1,7 +1,13 @@
 <div class="contain">
     <div class="header_chat" *ngIf="chat">
-        <div class="recipientName" *ngIf="!chat.group;else groupName">
-            <span>{{ getRecipientUser() }}</span>
+        <i class="bi bi-arrow-left" (click)="changeStatusChats()"></i>
+        <div class="header-private-chat" *ngIf="!chat.group;else groupName">
+            <div class="recipientName">
+                <span>{{ getRecipientUser() }}</span>
+            </div>
+            <div class="delete-chat">
+                <button (click)="deleteChat()">Delete Chat</button>
+            </div>
         </div>
         <ng-template #groupName>
             <div class="groupName">
@@ -9,7 +15,7 @@
             </div>
             <div class="group_options">
                 <button (click)="openDialog()">Add Members</button>
-                
+                <button (click)="leaveGroup()">Leave Group</button>
             </div>
         </ng-template>
     </div>
@@ -28,7 +34,7 @@
                 </div>
             </div>
             <ng-template #recipient>
-                <div class="sended_message">
+                <div class="sended_message" *ngIf="message.sender != null;else infoMessage">
                     <div class="message">
                         <div class="message_contain">
                             <div class="sender_username">
@@ -40,6 +46,13 @@
                         </div>
                     </div>
                 </div>
+                <ng-template #infoMessage>
+                    <div class="info-group-container">
+                        <div class="info-group-message">
+                            <span>{{ message.message }}</span>
+                        </div>
+                    </div>
+                </ng-template>
             </ng-template>
         </div>
     </div>
@@ -48,7 +61,7 @@
         <button class="send_button" (click)="sendMessage()"><i class="fa-solid fa-paper-plane" pTooltip="Send Message"></i></button>
     </div>
 </div>
-<p-dialog header="Followed" [(visible)]="visible" [style]="{width: '20vw'}">
+<p-dialog header="Followed" [(visible)]="visible" [style]="{width: '25vw'}" [breakpoints]="{'480px': '90vw'}">
     <div *ngIf="chat">
         <ul class="followed_list" *ngIf="_missingFollowers.length;else followUser">
             <li *ngFor="let follow of _missingFollowers">

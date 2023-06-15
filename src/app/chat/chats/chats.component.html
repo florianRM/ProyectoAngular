@@ -1,6 +1,6 @@
 <div class="contain">
     <div class="chats">
-        <div class="available_chats">
+        <div class="available_chats" [ngClass]="{'available-chats-close': closeChats}">
             <div class="title">
                 <h1>Chat</h1>
                 <hr>
@@ -19,7 +19,7 @@
                         <div *ngIf="!chat.group;else groupChat">
                             <div *ngFor="let member of chat.members">
                                 <div *ngIf="member != username" class="member_info">
-                                    <div class="member_username">
+                                    <div class="member_username" (click)="changeToCloseChat()">
                                         <span>{{ member }}</span>
                                     </div>
                                     <div class="status_user">
@@ -29,7 +29,7 @@
                             </div>
                         </div>
                         <ng-template #groupChat>
-                            <div class="groupName">
+                            <div class="groupName" (click)="changeToCloseChat()">
                                 <span>{{ chat.name }}</span>
                             </div>
                         </ng-template>
@@ -45,7 +45,7 @@
         </div>
     </div>
 </div>
-<p-dialog header="Followed" [(visible)]="visible" [style]="{width: '20vw'}">
+<p-dialog header="Followed" [(visible)]="visible" [style]="{width: '25vw'}" [breakpoints]="{'480px': '90vw'}">
     <div *ngIf="chats.length">
         <ul class="followed_list" *ngIf="_missingFollowers.length;else followUser">
             <li *ngFor="let follow of _missingFollowers">

@@ -26,28 +26,43 @@ export class ChatsComponent implements OnInit, OnDestroy {
   isRouterOutletActivated: boolean = false;
   existChats: string[] = [];
   _missingFollowers: string[] = [];
+  closeChats: boolean = false;
 
-  constructor(private chatService: ChatService, 
-            authService: AuthService, 
-            private followService: FollowService, 
-            private ngZone: NgZone,
-            private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private chatService: ChatService,
+    authService: AuthService,
+    private followService: FollowService,
+    private ngZone: NgZone,
+    private changeDetectorRef: ChangeDetectorRef) {
     this.username = authService.user.sub;
   }
 
   ngOnInit(): void {
     this.getFollowed();
     this.statusSubscription = this.chatService.suscribeToCheckStatus().subscribe((message: IMessage) => {
-        const usersOnlineList: string[] = JSON.parse(message.body);
-        this.usersOnline = usersOnlineList;
-      }
+      const usersOnlineList: string[] = JSON.parse(message.body);
+      this.usersOnline = usersOnlineList;
+    }
     )
     this.chatService.checkConnection();
     this.getChats();
+    this.isCloseChats();
   }
 
   ngOnDestroy(): void {
     this.statusSubscription.unsubscribe();
+  }
+
+  changeToCloseChat(): void {
+    this.chatService.changeToCloseChat();
+  }
+
+  isCloseChats(): void {
+    this.chatService.isCloseChats
+      .subscribe({
+        next: res => {
+          this.closeChats = res;
+        }
+      })
   }
 
   onRouterOutletActivate() {
@@ -61,6 +76,7 @@ export class ChatsComponent implements OnInit, OnDestroy {
     this.ngZone.run(() => {
       this.isRouterOutletActivated = false;
       this.changeDetectorRef.detectChanges();
+      this.ngOnInit();
     });
   }
 
@@ -74,33 +90,38 @@ export class ChatsComponent implements OnInit, OnDestroy {
 
   getChats(): void {
     this.chatService.getChatsForUser()
-    .subscribe((res: Chat[]) => {
-      this.chats = res;
-      this.missingFollowers();
-    })
+      .subscribe((res: Chat[]) => {
+        this.chats = res;
+        this.missingFollowers();
+      })
   }
 
   missingFollowers(): void {
-    let added = false;
+    //Creamos un set para que no se repitan los nombres
+    const existingMembers = new Set<string>();
+    const missingFollowers: string[] = [];
 
-    for(let i=0; i < this.followList.length; i++) {
-      added = false;
-      for(let j=0; j < this.chats.length && !added; j++) {
-        if(this.chats[j].members.includes(this.followList[i].followed) && !this.chats[j].group) {
-          this.existChats.push(this.followList[i].followed);
-          added = true
-        }
-      }
-      if(!this.existChats.includes(this.followList[i].followed)) {
-        this._missingFollowers.push(this.followList[i].followed);
+    //Recorremos los chats y vamos guardando los miembros.
+    for (const chat of this.chats) {
+      if(!chat.group) {
+        chat.members.forEach(member => existingMembers.add(member));
       }
     }
+
+    //Si el seguido no está en el Set eso quiere decir que no tenemos un chat con el
+    for (const follow of this.followList) {
+      if (!existingMembers.has(follow.followed)) {
+        missingFollowers.push(follow.followed);
+      }
+    }
+
+    this._missingFollowers = missingFollowers;
   }
 
   isUserOnline(userId: string): boolean {
     let isOnline: boolean = false;
-    for(let i=0; i < this.usersOnline.length && !isOnline; i++) {
-      if(this.usersOnline[i].userId === userId) {
+    for (let i = 0; i < this.usersOnline.length && !isOnline; i++) {
+      if (this.usersOnline[i].userId === userId) {
         isOnline = true;
       }
     }
@@ -109,39 +130,39 @@ export class ChatsComponent implements OnInit, OnDestroy {
 
   getFollowed(): void {
     this.followService.getFollowed()
-    .subscribe((res) => {
-      this.followList = res
-    })
+      .subscribe((res) => {
+        this.followList = res
+      })
   }
 
   createChat(member: string): void {
     const members: any[] = [];
-    members.push({'username': this.username});
-    members.push({'username': member});
+    members.push({ 'username': this.username });
+    members.push({ 'username': member });
     const chat: CreateChat = {
       members: members,
       group: false
     }
     this.chatService.createChat(chat)
-    .subscribe((res) => {
-      this.openDialog();
-      this.ngOnInit();
-    });
+      .subscribe((res) => {
+        this.openDialog();
+        this.ngOnInit();
+      });
   }
 
   createGroup(): void {
     const members: any[] = [];
-    members.push({'username': this.username});
+    members.push({ 'username': this.username });
     const chatGroup: CreateGroup = {
       name: this.groupName,
       members: members,
       group: true
     }
     this.chatService.createGroup(chatGroup)
-    .subscribe((res) => {
-      this.openGroupDialog();
-      this.ngOnInit();
-    })
+      .subscribe((res) => {
+        this.openGroupDialog();
+        this.ngOnInit();
+      })
   }
 
 }

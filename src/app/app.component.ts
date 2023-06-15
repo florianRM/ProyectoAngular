@@ -20,7 +20,11 @@ export class AppComponent implements OnInit {
       next: res => {
         this.isLogued = res
         if(res === true) {
-          this.chatService.connect();
+          try {
+            this.chatService.connect();
+          } catch (error) {
+            console.log(error)
+          }
         }
       },
       error: err => console.log('Hola')

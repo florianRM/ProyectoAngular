@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { TooltipModule } from 'primeng/tooltip';
     ReactiveFormsModule,
     DynamicDialogModule,
     DialogModule,
-    TooltipModule
+    TooltipModule,
+    InfiniteScrollModule
   ],
   exports: [
     HomeComponent
