@@ -52,6 +52,9 @@ export class ChatService {
     };
 
     this.stompService.initAndConnect();
+    this.stompService.errorSubject.subscribe({
+      next: (res) => console.log(res)
+    })
   }
 
   disconnect() {

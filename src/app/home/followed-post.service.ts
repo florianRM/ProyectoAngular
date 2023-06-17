@@ -13,7 +13,7 @@ export class FollowedPostService {
 
   constructor(private http: HttpClient) { }
 
-  followedPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.url}/posts/followed`);
+  followedPosts(numPag: number): Observable<any> {
+    return this.http.get(`${this.url}/posts/followed?numPag=${numPag}`);
   }
 }

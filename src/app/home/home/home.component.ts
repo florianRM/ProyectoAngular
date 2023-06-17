@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
   likesDialogRef!: DynamicDialogRef;
   followsSubscription!: Subscription;
   actualPage: number = 1;
+  isLast: boolean = false;
 
   constructor(private dialogService: DialogService,
             private fb: FormBuilder, 
@@ -87,12 +88,25 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  onScrolled(event: any): void {
+    if(!this.isLast) {
+      ++this.actualPage;
+      this.followedPost.followedPosts(this.actualPage)
+      .subscribe({
+        next: res => {
+          this.isLast = res.last;
+          this.posts.push(...res.content);
+        }
+      })
+    }
+  }
+
   followedPosts(): void {
-    this.followedPost.followedPosts()
+    this.followedPost.followedPosts(this.actualPage)
     .subscribe({
       next: res => {
-        this.posts = res;
-        if(!res.length) {
+        this.posts = res.content;
+        if(!res.content.length) {
           this.router.navigate(['/posts'])
         }
       },

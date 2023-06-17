@@ -31,6 +31,7 @@ export class PrivateChatComponent implements OnInit, AfterViewChecked {
   _missingFollowers: string[] = [];
   actualPage: number = 1;
   getMessagesSubscription!: Subscription;
+  isLast: boolean = false;
 
   constructor(private chatService: ChatService, private authService: AuthService, private activatedRoute: ActivatedRoute, private followService: FollowService, private router: Router, private ngZone: NgZone) {
     this.userLogued = authService.user.sub;
@@ -103,8 +104,10 @@ export class PrivateChatComponent implements OnInit, AfterViewChecked {
 
   onScrolledUp(event: IInfiniteScrollEvent): void {
     this.scrollContainer.nativeElement = event;
-    ++this.actualPage;
-    this.getMessages(this.chatId);
+    if(!this.isLast) {
+      ++this.actualPage;
+      this.getMessages(this.chatId);
+    }
   }
 
   openDialog(): void {
@@ -151,6 +154,7 @@ export class PrivateChatComponent implements OnInit, AfterViewChecked {
   private getMessages(chatId: string): void {
     this.getMessagesSubscription = this.chatService.getMessages(chatId, this.actualPage)
       .subscribe((res: any) => {
+        this.isLast = res.last
         this.messages.unshift(...res.content);
       })
   }
@@ -184,7 +188,7 @@ export class PrivateChatComponent implements OnInit, AfterViewChecked {
 
   private sendMessageInfo(): void {
     const username: string = this.authService.user.sub;
-    const message: string = `${username} leave the group`;
+    const message: string = `${username} left the group`;
     const chatMessage = {
       message,
       chatId: this.chatId
@@ -214,7 +218,7 @@ export class PrivateChatComponent implements OnInit, AfterViewChecked {
   deleteChat(): void {
     Swal.fire({
       icon: 'warning',
-      text: `Do you want to leave group ${this.chat.name}?`,
+      text: `Do you want delete this chat?`,
       showConfirmButton: true,
       showCancelButton: true
     })
@@ -231,7 +235,7 @@ export class PrivateChatComponent implements OnInit, AfterViewChecked {
   leaveGroup(): void {
     Swal.fire({
       icon: 'warning',
-      text: `Do you want delete this chat?`,
+      text: `Do you want to leave group ${this.chat.name}?`,
       showConfirmButton: true,
       showCancelButton: true
     })

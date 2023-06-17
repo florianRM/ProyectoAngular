@@ -22,10 +22,10 @@ export class SharedService {
             private activatedRoute: ActivatedRoute,
             private userService: UserService
           ) {
-    this.followedPostService.followedPosts()
+    this.followedPostService.followedPosts(1)
     .subscribe({
       next: (res) => {
-        if(res.length) {
+        if(res.content.length) {
           this._existPost.next(true);
         }
       }
@@ -62,10 +62,10 @@ export class SharedService {
   }
 
   refreshExistPosts(): void {
-    this.followedPostService.followedPosts()
+    this.followedPostService.followedPosts(1)
     .subscribe({
       next: (res) => {
-        if(res.length) {
+        if(res.content.length) {
           this._existPost.next(true);
         } else {
           this._existPost.next(false);

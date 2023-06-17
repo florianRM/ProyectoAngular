@@ -1,6 +1,7 @@
 .mycontainer {
     display: flex;
     height: 100vh;
+    overflow: hidden;
 }
 
 .sidebarcontainer {
@@ -27,7 +28,7 @@
 .routes {
     width: 100%;
     height: 100%;
-    overflow-y: auto;
+    
 }
 
 @media only screen and (max-width:480px) {
